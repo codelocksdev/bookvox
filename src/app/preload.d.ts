@@ -1,4 +1,4 @@
-import { Channels } from 'main/preload';
+import { Channels } from 'electron/preload';
 
 declare global {
   interface Window {
