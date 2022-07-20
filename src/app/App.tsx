@@ -16,7 +16,11 @@ const Hello = () => {
       <div className="Hello">
         <button
           type="button"
-          onClick={() => ipcService.send('system-info').then(console.log)}
+          onClick={() =>
+            ipcService
+              .send('batch-text', { params: { directoryPath: 'path yo' } })
+              .then(console.log)
+          }
         >
           <span role="img" aria-label="books">
             📚

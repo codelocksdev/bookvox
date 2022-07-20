@@ -1,4 +1,4 @@
-import { IpcRequest } from '../../../shared/IpcRequest';
+import { IpcRequest } from '../../../shared/requests/IpcRequest';
 
 export default class IpcService {
   private ipcRenderer?: any;

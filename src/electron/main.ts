@@ -14,8 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { IpcChannelInterface } from './ipc/IpcChannelInterface';
-import SystemInfoChannel from './ipc/SystemInfoChannel';
+import { IpcHandlerInterface } from './ipc/IpcHandlerInterface';
+import TextFileBatchChannel from './ipc/TextFileBatchChannel';
 
 class AppUpdater {
   constructor() {
@@ -114,12 +114,15 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
-const registerIpcChannels = (ipcChannels: IpcChannelInterface[]) => {
-  ipcChannels.forEach((channel) =>
-    ipcMain.on(channel.getName(), (event, request) =>
+const registerIpcChannels = (ipcChannels: IpcHandlerInterface[]) => {
+  ipcChannels.forEach((channel) => {
+    ipcMain.on(channel.getConfigChannelName(), (event, request) =>
+      channel.config(event, request)
+    );
+    ipcMain.on(channel.getChannelName(), (event, request) =>
       channel.handle(event, request)
-    )
-  );
+    );
+  });
 };
 
 /**
@@ -146,4 +149,4 @@ app
   })
   .catch(console.log);
 
-registerIpcChannels([new SystemInfoChannel()]);
+registerIpcChannels([new TextFileBatchChannel('batch-text')]);
