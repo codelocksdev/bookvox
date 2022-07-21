@@ -1,46 +1,40 @@
-import { useMemo } from 'react';
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Uploady from '@rpldy/uploady';
+import { useMemo } from 'react';
 import IpcService from './common/ipc/IpcService';
+import { readFileSync } from 'fs';
 
 const Hello = () => {
   const ipcService = useMemo(() => new IpcService(), []);
-
   return (
     <div>
-      <div className="Hello">
-        <img width="200px" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <button
-          type="button"
-          onClick={() =>
-            ipcService
-              .send('batch-text', { params: { directoryPath: 'path yo' } })
-              .then(console.log)
-          }
-        >
-          <span role="img" aria-label="books">
-            📚
-          </span>
-          system info
-        </button>
+      <Uploady destination={{ url: '[upload-url]' }}>
+        <input
+          type={'file'}
+          onInput={(e) => {
+            const filePaths: string[] = [];
 
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
+            const { files } = e.currentTarget;
+            if (!files) return;
+
+            for (let i = 0; i < files.length; i += 1) {
+              const path = files.item(i)?.path;
+              if (path) filePaths.push(path);
+            }
+
+            ipcService
+              .send('batch-text', {
+                params: {
+                  filePaths,
+                },
+              })
+              .then((response) => console.log(response))
+              .catch(() => console.log('failed to parse uploads'));
+          }}
+          {...{ webkitdirectory: '', directory: '' }}
+        />
+      </Uploady>
     </div>
   );
 };

@@ -12,6 +12,7 @@ module.exports = {
       'always',
       { exceptAfterSingleLine: true },
     ],
+    'react/jsx-curly-brace-presence': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
