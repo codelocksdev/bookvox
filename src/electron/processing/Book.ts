@@ -1,5 +1,4 @@
-import fs from 'fs';
-import { makeChunks } from './utils';
+import { getFileText, makeChunks } from './utils';
 
 export default class Book {
   private readonly chapters: string[][];
@@ -15,9 +14,7 @@ export default class Book {
   public static fromTxtFiles(filePaths: string[]): Book {
     const chapters: string[][] = [];
 
-    filePaths.forEach((file) =>
-      chapters.push(makeChunks(fs.readFileSync(file).toString()))
-    );
+    filePaths.forEach((file) => chapters.push(makeChunks(getFileText(file))));
 
     return new Book(chapters);
   }

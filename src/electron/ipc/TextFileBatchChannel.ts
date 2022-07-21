@@ -4,7 +4,6 @@ import { TextFileBatchRequest } from '../../shared/requests/TextFileBatchRequest
 import AbstractAwsServiceChannel from './AbstractAwsServiceChannel';
 import Book from '../processing/Book';
 import { processTextChapters } from '../processing/utils';
-import fs from 'fs';
 
 export default class TextFileBatchChannel
   extends AbstractAwsServiceChannel
@@ -33,7 +32,7 @@ export default class TextFileBatchChannel
     }
 
     event.sender.send(request.responseChannel, {
-      audioChapters: fs.readFileSync(request.params.filePaths).toString(),
+      audioChapters,
     });
   }
 }

@@ -1,10 +1,16 @@
+import fs from 'fs';
+
 export const processTextToAudio = (text: string): unknown => {
   if (text.length > 2999) throw new Error('Chapter text too long.');
-  return 'placeholder';
+  return text;
 };
 
-export const processTextChapters = (chapters: string[]): unknown[] => {
-  return chapters.map((chapter) => processTextToAudio(chapter));
+export const processChapter = (chapter: string[]) => {
+  return chapter.map((chunk) => processTextToAudio(chunk));
+};
+
+export const processTextChapters = (chapters: string[][]): unknown[] => {
+  return chapters.map((chapter) => processChapter(chapter));
 };
 
 export const makeChunks = (text: string): string[] => {
@@ -26,4 +32,12 @@ export const makeChunks = (text: string): string[] => {
   });
 
   return chunks;
+};
+
+export const getFileText = (path: string) => {
+  return fs
+    .readFileSync(path)
+    .toString()
+    .replaceAll('\n', ' ')
+    .replaceAll('\r', ' ');
 };

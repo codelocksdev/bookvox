@@ -13,6 +13,8 @@ module.exports = {
       { exceptAfterSingleLine: true },
     ],
     'react/jsx-curly-brace-presence': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
