@@ -1,4 +1,4 @@
 export interface AwsCredentials {
-  clientId: string;
-  clientSecret: string;
+  accessKeyId: string;
+  secretAccessKey: string;
 }

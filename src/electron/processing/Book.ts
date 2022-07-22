@@ -13,7 +13,6 @@ export default class Book {
 
   public static fromTxtFiles(filePaths: string[]): Book {
     const chapters: string[][] = [];
-
     filePaths.forEach((file) => chapters.push(makeChunks(getFileText(file))));
 
     return new Book(chapters);

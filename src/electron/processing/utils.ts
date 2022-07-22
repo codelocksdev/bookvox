@@ -1,18 +1,5 @@
 import fs from 'fs';
 
-export const processTextToAudio = (text: string): unknown => {
-  if (text.length > 2999) throw new Error('Chapter text too long.');
-  return text;
-};
-
-export const processChapter = (chapter: string[]) => {
-  return chapter.map((chunk) => processTextToAudio(chunk));
-};
-
-export const processTextChapters = (chapters: string[][]): unknown[] => {
-  return chapters.map((chapter) => processChapter(chapter));
-};
-
 export const makeChunks = (text: string): string[] => {
   const chunks: string[] = [];
   const charLimit = 2999;
@@ -30,6 +17,8 @@ export const makeChunks = (text: string): string[] => {
       currentCharCount += word.length + 1;
     }
   });
+
+  if (wordBuffer.length !== 0) chunks.push(wordBuffer.join(' '));
 
   return chunks;
 };

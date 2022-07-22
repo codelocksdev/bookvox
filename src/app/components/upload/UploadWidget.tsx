@@ -31,17 +31,21 @@ const UploadWidget = () => {
     <Container>
       <FileInput style={{ marginBottom: 16 }} text={'Choose destination...'} />
       {fileList.length === 0 && (
-        <Dropzone onDrop={handleDrop}>
+        <Dropzone
+          onDrop={handleDrop}
+          accept={{ 'text/html': ['.txt'] }}
+          onDropRejected={() => null}
+        >
           {({ getRootProps, getInputProps }) => (
             <StyledCard {...getRootProps()}>
               {/* @ts-ignore */}
               <FileInput {...getInputProps()} />
-              <p>Drag and drop some files here, or click to select files</p>
+              <p>Drag and drop .txt chapter files here.</p>
             </StyledCard>
           )}
         </Dropzone>
       )}
-      <FileUploadListContainer files={fileList} />
+      <FileUploadListContainer files={fileList} setFiles={setFileList} />
     </Container>
   );
 };
