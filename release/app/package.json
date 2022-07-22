@@ -8,7 +8,7 @@
     "email": "electronreactboilerplate@gmail.com",
     "url": "https://github.com/electron-react-boilerplate"
   },
-  "main": "./dist/main/main.js",
+  "main": "./dist/electron/main.js",
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
     "postinstall": "npm run electron-rebuild && npm run link-modules",

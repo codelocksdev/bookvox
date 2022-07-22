@@ -1,4 +1,7 @@
+import * as os from 'os';
+import path from 'path';
 import { IpcMainEvent } from 'electron';
+import fs from 'fs';
 
 import { IpcHandlerInterface } from './IpcHandlerInterface';
 import { TextFileBatchRequest } from '../../shared/requests/TextFileBatchRequest';
@@ -20,45 +23,48 @@ export default class TextFileBatchChannel
     return this.name;
   }
 
-  handle(event: IpcMainEvent, request: TextFileBatchRequest): void {
-    const rawBook: Book = Book.fromTxtFiles(request.params.filePaths);
+  async handle(
+    event: IpcMainEvent,
+    request: TextFileBatchRequest
+  ): Promise<void> {
+    if (!this.polly)
+      throw new Error('Cannot process book, polly not initialized.');
 
-    const audioChapters: unknown[] = this.processTextChapters(
+    const rawBook: Book = Book.fromTxtFiles(
+      request.params.filePaths,
+      this.polly
+    );
+
+    const audioChapters: Buffer[] = await rawBook.processTextChapters(
       rawBook.getTextChapters()
     );
+
+    const directory = await this.getOutputDirectory('test-book');
+
+    audioChapters.forEach((chapter, index) => {
+      fs.writeFileSync(`${directory}/${index}.mp3`, chapter);
+    });
 
     if (!request.responseChannel) {
       request.responseChannel = `${this.getChannelName()}_response`;
     }
 
     event.sender.send(request.responseChannel, {
-      audioChapters,
+      audioChapters: audioChapters.map((chapter) => chapter.toString('base64')),
     });
   }
 
-  private processTextToAudio(text: string): unknown {
-    if (text.length > 2999) throw new Error('Chapter text too long.');
-    if (!this.polly) throw new Error('Polly has not been initialized.');
+  private async getOutputDirectory(name: string): Promise<string> {
+    const directory = path.join(os.homedir(), `${name}`);
 
     return new Promise((resolve, reject) => {
-      this.polly?.synthesizeSpeech(
-        {
-          Text: `<speak><prosody rate='95%'>${text}</prosody></speak>`,
-          OutputFormat: 'mp3',
-          VoiceId: 'Salli',
-        },
-        (err, data) => {
+      if (!fs.existsSync(directory)) {
+        fs.mkdir(directory, (err) => {
           if (err) reject(err);
-
-          resolve(data);
-        }
-      );
+          resolve(directory);
+        });
+      }
+      resolve(directory);
     });
-  }
-
-  private processChapter(chapter: string[]) {}
-
-  private processTextChapters(chapters: string[][]): unknown[] {
-    return chapters.map((chapter) => this.processChapter(chapter));
   }
 }

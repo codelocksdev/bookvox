@@ -15,6 +15,7 @@ module.exports = {
     'react/jsx-curly-brace-presence': 'off',
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'no-await-in-loop': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

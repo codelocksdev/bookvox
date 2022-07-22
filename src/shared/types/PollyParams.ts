@@ -8,7 +8,7 @@ export interface PollyParams {
 }
 
 export const defaultPollyParams = {
-  Engine: 'standard',
+  Engine: 'neural',
   LanguageCode: 'en-US',
   SampleRate: '22050',
   TextType: 'ssml',

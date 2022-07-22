@@ -24,9 +24,5 @@ export const makeChunks = (text: string): string[] => {
 };
 
 export const getFileText = (path: string) => {
-  return fs
-    .readFileSync(path)
-    .toString()
-    .replaceAll('\n', ' ')
-    .replaceAll('\r', ' ');
+  return fs.readFileSync(path).toString();
 };

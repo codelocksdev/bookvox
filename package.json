@@ -115,6 +115,7 @@
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.3",
     "react": "^18.1.0",
+    "react-audio-player": "^0.17.0",
     "react-dom": "^18.1.0",
     "react-dropzone": "^14.2.2",
     "react-redux": "^8.0.2",
@@ -132,9 +133,9 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "@types/react-test-renderer": "^18.0.0",
-    "@types/terser-webpack-plugin": "^5.0.4",
     "@types/react-transition-group": "^4.4.5",
     "@types/styled-components": "^5.1.25",
+    "@types/terser-webpack-plugin": "^5.0.4",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
@@ -253,7 +254,8 @@
       "provider": "github",
       "owner": "electron-react-boilerplate",
       "repo": "electron-react-boilerplate"
-    }
+    },
+    "extends": null
   },
   "collective": {
     "url": "https://opencollective.com/electron-react-boilerplate-594"
