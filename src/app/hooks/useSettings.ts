@@ -47,8 +47,6 @@ const useSettings = () => {
     setRegion: (region: string) => updateSettings({ region }),
     setEngine: (engine: 'standard' | 'neural') =>
       updateSettings({ Engine: engine }),
-    setLanguageCode: (code: string) => updateSettings({ LanguageCode: code }),
-    setSampleRate: (rate: string) => updateSettings({ SampleRate: rate }),
     setTextType: (textType: string) => updateSettings({ TextType: textType }),
     setOutputDirectory: (outputDirectory: string) =>
       updateSettings({ outputDirectory }),

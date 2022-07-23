@@ -1,8 +1,10 @@
-import { HTMLSelect, Icon, Intent, Position, Tooltip } from '@blueprintjs/core';
+import { Icon, Intent, Position, Tooltip } from '@blueprintjs/core';
 import styled from 'styled-components';
-import { ChangeEvent } from 'react';
+
 import TextInput from '../TextInput';
 import Region from '../../../shared/types/Region';
+import DropdownChooser from '../DropdownChooser';
+import Label from '../Label';
 
 const Container = styled.div`
   display: flex;
@@ -28,14 +30,10 @@ const AwsSettings = ({
   region = Region.US_EAST_1,
   setRegion,
 }: AwsSettingsProps) => {
-  const handleRegionSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setRegion(e.target.value);
-  };
-
   return (
     <Container>
       <div>
-        <div style={{ color: ' #8abbff', fontWeight: 400, marginLeft: 8 }}>
+        <Label style={{ color: ' #8abbff', fontWeight: 400, marginLeft: 8 }}>
           Credentials
           <Tooltip
             content={
@@ -49,7 +47,7 @@ const AwsSettings = ({
               style={{ marginLeft: 8 }}
             />
           </Tooltip>
-        </div>
+        </Label>
         <TextInput
           placeholder={'Access Key Id'}
           text={accessKeyId || ''}
@@ -61,24 +59,12 @@ const AwsSettings = ({
           setText={setSecretAccessKey}
         />
       </div>
-      <div
-        style={{
-          marginLeft: 32,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div style={{ color: ' #8abbff', fontWeight: 400, marginBottom: 8 }}>
-          Region
-        </div>
-        <HTMLSelect large onChange={handleRegionSelect} defaultValue={region}>
-          {Object.values(Region).map((choice) => (
-            <option key={choice} value={choice}>
-              {choice}
-            </option>
-          ))}
-        </HTMLSelect>
-      </div>
+      <DropdownChooser
+        label={'Region'}
+        options={Object.values(Region)}
+        selected={region}
+        setSelection={setRegion}
+      />
     </Container>
   );
 };
