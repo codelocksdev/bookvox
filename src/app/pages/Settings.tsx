@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { Button, Intent } from '@blueprintjs/core';
 
 import VoiceSettings from '../components/settings/VoiceSettings';
 import AwsSettings from '../components/settings/AwsSettings';
 import AccordionItem from '../components/AccordionItem';
-import { SuccessToaster } from '../components/toasters';
 import OutputSettings from '../components/settings/OutputSettings';
+import useSettings from '../hooks/useSettings';
 
 const Container = styled.div`
   display: flex;
@@ -15,21 +14,18 @@ const Container = styled.div`
 `;
 
 const Settings = () => {
-  const handleSave = () => {
-    SuccessToaster.show({ message: 'Settings Saved!', intent: Intent.SUCCESS });
-  };
+  const settings = useSettings();
 
   return (
     <Container>
-      <Button icon={'floppy-disk'} text={'Save'} onClick={handleSave} />
       <AccordionItem headerText={'Output Settings'}>
-        <OutputSettings />
+        <OutputSettings {...settings} />
       </AccordionItem>
       <AccordionItem headerText={'Voice Settings'}>
-        <VoiceSettings />
+        <VoiceSettings {...settings} />
       </AccordionItem>
       <AccordionItem headerText={'AWS Account Settings'}>
-        <AwsSettings />
+        <AwsSettings {...settings} />
       </AccordionItem>
     </Container>
   );

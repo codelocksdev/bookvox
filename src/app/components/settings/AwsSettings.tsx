@@ -12,9 +12,9 @@ const Container = styled.div`
 `;
 
 interface AwsSettingsProps {
-  accessKeyId: string;
-  setAccessKey(key: string): void;
-  secretAccessKey: string;
+  accessKeyId?: string;
+  setAccessKeyId(key: string): void;
+  secretAccessKey?: string;
   setSecretAccessKey(key: string): void;
   region: string;
   setRegion(region: string): void;
@@ -22,7 +22,7 @@ interface AwsSettingsProps {
 
 const AwsSettings = ({
   accessKeyId,
-  setAccessKey,
+  setAccessKeyId,
   secretAccessKey,
   setSecretAccessKey,
   region = Region.US_EAST_1,
@@ -52,7 +52,7 @@ const AwsSettings = ({
         <TextInput
           placeholder={'Access Key Id'}
           text={accessKeyId}
-          setText={setAccessKey}
+          setText={setAccessKeyId}
         />
         <TextInput
           placeholder={'Secret Access Key'}

@@ -16,6 +16,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'no-await-in-loop': 'off',
+    'react/require-default-props': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
