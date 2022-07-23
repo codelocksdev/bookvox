@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { SuccessToaster } from '../components/toasters';
 import { Intent } from '@blueprintjs/core';
+
+import { SuccessToaster } from '../components/toasters';
 
 interface Settings {
   accessKeyId?: string;
@@ -10,6 +11,8 @@ interface Settings {
   LanguageCode: string;
   SampleRate: string;
   TextType: string;
+  OutputFormat: string;
+  VoiceId: string;
   outputDirectory: string;
 }
 
@@ -19,7 +22,9 @@ const defaultSettings: Settings = {
   LanguageCode: 'en-US',
   SampleRate: '22050',
   TextType: 'ssml',
-  outputDirectory: '/bookvox',
+  outputDirectory: 'bookvox',
+  OutputFormat: 'mp3',
+  VoiceId: 'Salli',
 };
 
 const useSettings = () => {
@@ -47,6 +52,9 @@ const useSettings = () => {
     setTextType: (textType: string) => updateSettings({ TextType: textType }),
     setOutputDirectory: (outputDirectory: string) =>
       updateSettings({ outputDirectory }),
+    setOutputFormat: (format: string) =>
+      updateSettings({ OutputFormat: format }),
+    setVoiceId: (voiceId: string) => updateSettings({ VoiceId: voiceId }),
   };
 };
 

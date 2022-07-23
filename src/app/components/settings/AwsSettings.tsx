@@ -31,6 +31,7 @@ const AwsSettings = ({
   const handleRegionSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setRegion(e.target.value);
   };
+
   return (
     <Container>
       <div>
@@ -51,12 +52,12 @@ const AwsSettings = ({
         </div>
         <TextInput
           placeholder={'Access Key Id'}
-          text={accessKeyId}
+          text={accessKeyId || ''}
           setText={setAccessKeyId}
         />
         <TextInput
           placeholder={'Secret Access Key'}
-          text={secretAccessKey}
+          text={secretAccessKey || ''}
           setText={setSecretAccessKey}
         />
       </div>
@@ -70,10 +71,10 @@ const AwsSettings = ({
         <div style={{ color: ' #8abbff', fontWeight: 400, marginBottom: 8 }}>
           Region
         </div>
-        <HTMLSelect large onSelect={handleRegionSelect}>
+        <HTMLSelect large onChange={handleRegionSelect} defaultValue={region}>
           {Object.values(Region).map((choice) => (
-            <option key={choice} value={choice} selected={choice === region}>
-              {region}
+            <option key={choice} value={choice}>
+              {choice}
             </option>
           ))}
         </HTMLSelect>
