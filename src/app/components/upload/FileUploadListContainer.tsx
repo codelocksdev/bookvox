@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
 
 import IpcService from '../../common/ipc/IpcService';
-import { ConvertSuccessToaster } from '../toasters';
+import { SuccessToaster } from '../toasters';
 
 const Container = styled.div``;
 
@@ -51,7 +51,7 @@ const FileUploadListContainer = ({
 
   useEffect(() => {
     if (converted) {
-      ConvertSuccessToaster.show({
+      SuccessToaster.show({
         message: 'Files Converted Successfully!',
         intent: Intent.SUCCESS,
       });

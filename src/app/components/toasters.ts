@@ -1,6 +1,6 @@
 import { Position, Toaster } from '@blueprintjs/core';
 
-export const ConvertSuccessToaster = Toaster.create({
+export const SuccessToaster = Toaster.create({
   position: Position.TOP,
 });
 
