@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Radio, RadioGroup, Slider, TextArea } from '@blueprintjs/core';
+import { ChangeEvent, useState } from 'react';
+
 import DropdownChooser from '../DropdownChooser';
 import { VoiceIds } from '../../../shared/types/AwsConstants';
 import Label from '../Label';
-import { useState } from 'react';
 import ButtonPlayer from '../ButtonPlayer';
 
 interface VoiceSettingsProps {
@@ -39,6 +40,7 @@ const VoiceSettings = ({
   speed,
   setSpeed,
 }: VoiceSettingsProps) => {
+  const [text, setText] = useState('');
   const [sliderPosition, setSliderPosition] = useState(
     parseFloat(speed.replace('%', '')) / 100
   );
@@ -49,6 +51,12 @@ const VoiceSettings = ({
 
   const updateSpeedSetting = () => {
     setSpeed(renderSliderLabel(sliderPosition));
+  };
+
+  const onTextInput = ({
+    target: { value },
+  }: ChangeEvent<HTMLTextAreaElement>) => {
+    setText(value);
   };
 
   return (
@@ -85,9 +93,13 @@ const VoiceSettings = ({
             onRelease={updateSpeedSetting}
           />
         </div>
-        <ButtonPlayer />
+        <ButtonPlayer text={text} />
       </Column>
-      <StyledTextArea placeholder={'Enter sample text...'} maxLength={300} />
+      <StyledTextArea
+        placeholder={'Enter sample text...'}
+        maxLength={300}
+        onChange={onTextInput}
+      />
     </Row>
   );
 };

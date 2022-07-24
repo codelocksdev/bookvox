@@ -1,6 +1,6 @@
 import { InputGroup } from '@blueprintjs/core';
 import styled from 'styled-components';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const InputContainer = styled.div`
   display: flex;
@@ -18,15 +18,25 @@ interface TextInputProps {
 }
 
 const TextInput = ({ placeholder, setText, text }: TextInputProps) => {
+  const [value, setValue] = useState(text);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setText(value);
+    }, 1500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [value, setText]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+    setValue(e.target.value);
   };
 
   return (
     <InputContainer>
       <InputGroup
         round
-        value={text}
+        value={value}
         fill={false}
         placeholder={placeholder}
         onChange={handleChange}

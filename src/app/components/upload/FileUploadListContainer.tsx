@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
 
 import IpcService from '../../common/ipc/IpcService';
-import { SuccessToaster } from '../toasters';
+import Toaster from '../toasters';
 
 const Container = styled.div``;
 
@@ -26,6 +26,7 @@ const FileUploadListContainer = ({
   const [streams, setStreams] = useState<string[]>([]);
 
   const ipcService = useMemo(() => new IpcService(), []);
+
   const onSubmit = () => {
     setProcessing(true);
     const filePaths = files.map((file) => file.path);
@@ -51,11 +52,10 @@ const FileUploadListContainer = ({
 
   useEffect(() => {
     if (converted) {
-      SuccessToaster.show({
+      Toaster.show({
         message: 'Files Converted Successfully!',
         intent: Intent.SUCCESS,
       });
-      // onReset();
     }
   }, [converted, onReset]);
 

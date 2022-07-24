@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Intent } from '@blueprintjs/core';
 
-import { SuccessToaster } from '../components/toasters';
+import { Toaster } from '../components/toasters';
 
 interface Settings {
   accessKeyId?: string;
@@ -38,22 +38,59 @@ const useSettings = () => {
       ...newSettings,
     }));
 
-    SuccessToaster.show({ message: 'Settings Saved!', intent: Intent.SUCCESS });
+    Toaster.show({ message: 'Settings Saved!', intent: Intent.SUCCESS });
   };
+
+  const setAccessKeyId = useCallback(
+    (key: string) => updateSettings({ accessKeyId: key }),
+    []
+  );
+
+  const setSecretAccessKey = useCallback(
+    (key: string) => updateSettings({ secretAccessKey: key }),
+    []
+  );
+
+  const setRegion = useCallback(
+    (region: string) => updateSettings({ region }),
+    []
+  );
+
+  const setEngine = useCallback(
+    (engine: string) => updateSettings({ Engine: engine }),
+    []
+  );
+
+  const setOutputDirectory = useCallback(
+    (outputDirectory: string) => updateSettings({ outputDirectory }),
+    []
+  );
+
+  const setOutputFormat = useCallback(
+    (format: string) => updateSettings({ OutputFormat: format }),
+    []
+  );
+
+  const setVoiceId = useCallback(
+    (voiceId: string) => updateSettings({ VoiceId: voiceId }),
+    []
+  );
+
+  const setSpeed = useCallback(
+    (speed: string) => updateSettings({ speed }),
+    []
+  );
 
   return {
     ...settings,
-    setAccessKeyId: (key: string) => updateSettings({ accessKeyId: key }),
-    setSecretAccessKey: (key: string) =>
-      updateSettings({ secretAccessKey: key }),
-    setRegion: (region: string) => updateSettings({ region }),
-    setEngine: (engine: string) => updateSettings({ Engine: engine }),
-    setOutputDirectory: (outputDirectory: string) =>
-      updateSettings({ outputDirectory }),
-    setOutputFormat: (format: string) =>
-      updateSettings({ OutputFormat: format }),
-    setVoiceId: (voiceId: string) => updateSettings({ VoiceId: voiceId }),
-    setSpeed: (speed: string) => updateSettings({ speed }),
+    setAccessKeyId,
+    setSecretAccessKey,
+    setRegion,
+    setEngine,
+    setOutputDirectory,
+    setOutputFormat,
+    setVoiceId,
+    setSpeed,
   };
 };
 
