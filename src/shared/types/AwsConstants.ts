@@ -26,3 +26,5 @@ export const VoiceIds = [
   'Matthew',
   'Salli',
 ];
+
+export const OutputFormats = ['json', 'mp3', 'ogg_vorbis', 'pcm'];

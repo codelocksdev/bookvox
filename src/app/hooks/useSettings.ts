@@ -14,6 +14,7 @@ interface Settings {
   OutputFormat: string;
   VoiceId: string;
   outputDirectory: string;
+  speed: string;
 }
 
 const defaultSettings: Settings = {
@@ -25,6 +26,7 @@ const defaultSettings: Settings = {
   outputDirectory: 'bookvox',
   OutputFormat: 'mp3',
   VoiceId: 'Salli',
+  speed: '95%',
 };
 
 const useSettings = () => {
@@ -45,14 +47,13 @@ const useSettings = () => {
     setSecretAccessKey: (key: string) =>
       updateSettings({ secretAccessKey: key }),
     setRegion: (region: string) => updateSettings({ region }),
-    setEngine: (engine: 'standard' | 'neural') =>
-      updateSettings({ Engine: engine }),
-    setTextType: (textType: string) => updateSettings({ TextType: textType }),
+    setEngine: (engine: string) => updateSettings({ Engine: engine }),
     setOutputDirectory: (outputDirectory: string) =>
       updateSettings({ outputDirectory }),
     setOutputFormat: (format: string) =>
       updateSettings({ OutputFormat: format }),
     setVoiceId: (voiceId: string) => updateSettings({ VoiceId: voiceId }),
+    setSpeed: (speed: string) => updateSettings({ speed }),
   };
 };
 

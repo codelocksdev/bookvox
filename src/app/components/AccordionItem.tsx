@@ -33,7 +33,7 @@ interface AccordionItemProps {
 }
 
 const AccordionItem = ({ headerText, children }: AccordionItemProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
     setIsOpen((prevState) => !prevState);

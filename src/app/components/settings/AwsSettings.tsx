@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 32px;
 `;
 
 interface AwsSettingsProps {

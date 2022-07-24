@@ -7,11 +7,10 @@ import Label from './Label';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 32px;
 `;
 
 interface DropdownChooserProps {
-  label: string;
+  label?: string;
   options: string[];
   selected: string;
   setSelection(selection: string): void;
@@ -29,7 +28,7 @@ const DropdownChooser = ({
 
   return (
     <Container>
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <HTMLSelect large onChange={handleSelect} defaultValue={selected}>
         {options.map((choice) => (
           <option key={choice} value={choice}>

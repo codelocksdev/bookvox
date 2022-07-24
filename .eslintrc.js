@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     'no-await-in-loop': 'off',
     'react/require-default-props': 'off',
+    'jsx-a11y/media-has-caption': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
