@@ -1,84 +1,61 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { Intent } from '@blueprintjs/core';
 
-import { Toaster } from '../components/toasters';
-
-interface Settings {
-  accessKeyId?: string;
-  secretAccessKey?: string;
-  region: string;
-  Engine: string;
-  LanguageCode: string;
-  SampleRate: string;
-  TextType: string;
-  OutputFormat: string;
-  VoiceId: string;
-  outputDirectory: string;
-  speed: string;
-}
-
-const defaultSettings: Settings = {
-  region: 'us-east-1',
-  Engine: 'neural',
-  LanguageCode: 'en-US',
-  SampleRate: '22050',
-  TextType: 'ssml',
-  outputDirectory: 'bookvox',
-  OutputFormat: 'mp3',
-  VoiceId: 'Salli',
-  speed: '95%',
-};
+import Toaster from '../components/toasters';
+import { useAppDispatch, useAppSelector } from '../common/state/hooks';
+import { setSettings } from '../common/state/settingsSlice';
 
 const useSettings = () => {
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const dispatch = useAppDispatch();
+  const settings = useAppSelector((store) => store.settings);
 
-  const updateSettings = (newSettings: { [key: string]: string }) => {
-    setSettings((prevState) => ({
-      ...prevState,
-      ...newSettings,
-    }));
+  const updateSettings = useCallback(
+    (newSettings: { [key: string]: string }) => {
+      dispatch(setSettings(newSettings));
 
-    Toaster.show({ message: 'Settings Saved!', intent: Intent.SUCCESS });
-  };
+      Toaster.show({ message: 'Settings Saved!', intent: Intent.SUCCESS });
+    },
+    [dispatch]
+  );
 
   const setAccessKeyId = useCallback(
     (key: string) => updateSettings({ accessKeyId: key }),
-    []
+    [updateSettings]
   );
 
   const setSecretAccessKey = useCallback(
     (key: string) => updateSettings({ secretAccessKey: key }),
-    []
+    [updateSettings]
   );
 
   const setRegion = useCallback(
     (region: string) => updateSettings({ region }),
-    []
+    [updateSettings]
   );
 
   const setEngine = useCallback(
     (engine: string) => updateSettings({ Engine: engine }),
-    []
+    [updateSettings]
   );
 
   const setOutputDirectory = useCallback(
     (outputDirectory: string) => updateSettings({ outputDirectory }),
-    []
+    [updateSettings]
   );
 
   const setOutputFormat = useCallback(
     (format: string) => updateSettings({ OutputFormat: format }),
-    []
+    [updateSettings]
   );
 
   const setVoiceId = useCallback(
     (voiceId: string) => updateSettings({ VoiceId: voiceId }),
-    []
+    [updateSettings]
   );
 
   const setSpeed = useCallback(
     (speed: string) => updateSettings({ speed }),
-    []
+    [updateSettings]
   );
 
   return {

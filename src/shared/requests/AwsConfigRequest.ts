@@ -4,7 +4,7 @@ import { PollyParams } from '../types/PollyParams';
 
 export interface AwsConfigRequest extends IpcRequest {
   params: {
-    credentials?: AwsCredentials;
-    options?: PollyParams;
+    credentials: AwsCredentials;
+    options: PollyParams;
   };
 }

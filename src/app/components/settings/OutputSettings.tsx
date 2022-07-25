@@ -21,6 +21,8 @@ const Row = styled.div`
   font-size: 20px;
 `;
 
+const slash = window.navigator.platform === 'Win32' ? '\\' : '/';
+
 interface OutputSettingsProps {
   outputDirectory: string;
   setOutputDirectory(outputDirectory: string): void;
@@ -40,7 +42,7 @@ const OutputSettings = ({
   useEffect(() => {
     (async function fetchHomeDir() {
       const homeDir = await ipcService.send<string>('fetch-home-directory');
-      setHomeDirectory(`${homeDir}\\`);
+      setHomeDirectory(`${homeDir}${slash}`);
     })();
   }, [ipcService, setHomeDirectory]);
 

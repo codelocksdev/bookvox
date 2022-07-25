@@ -10,7 +10,7 @@ export default abstract class AbstractAwsServiceChannel
   implements IpcHandlerInterface
 {
   protected readonly initChannel: string = 'aws-config';
-  protected awsCredentials?: AwsCredentials;
+  protected awsCredentials!: AwsCredentials;
 
   protected polly?: AWS.Polly;
 
