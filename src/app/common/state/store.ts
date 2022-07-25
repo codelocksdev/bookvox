@@ -1,6 +1,7 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 import settingsReducer, { setSettings } from './settingsSlice';
 import IpcService from '../ipc/IpcService';
+import ChannelNames from '../../../shared/ChannelNames';
 
 const listenerMiddleware = createListenerMiddleware();
 const ipcService = new IpcService();
@@ -25,7 +26,7 @@ listenerMiddleware.startListening({
 
     if (accessKeyId && secretAccessKey && region) {
       ipcService
-        .send('aws-credentials', {
+        .send(ChannelNames.AWS_CONFIG, {
           params: {
             credentials: { accessKeyId, secretAccessKey, region },
             options: { VoiceId, OutputFormat, Engine, speed, outputDirectory },

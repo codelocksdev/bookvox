@@ -2,9 +2,10 @@ import { homedir } from 'os';
 
 import { IpcHandlerInterface } from './IpcHandlerInterface';
 import { IpcRequest } from '../../shared/requests/IpcRequest';
+import ChannelNames from '../../shared/ChannelNames';
 
 class FetchHomeDirectoryChannel implements IpcHandlerInterface {
-  private readonly name: string = 'fetch-home-directory';
+  private readonly name: string = ChannelNames.HOME_DIRECTORY;
 
   config(
     event: Electron.CrossProcessExports.IpcMainEvent,

@@ -15,6 +15,8 @@ import { resolveHtmlPath } from './util';
 import { IpcHandlerInterface } from './ipc/IpcHandlerInterface';
 import TextFileBatchChannel from './ipc/TextFileBatchChannel';
 import FetchHomeDirectoryChannel from './ipc/FetchHomeDirectoryChannel';
+import ProcessAudioChannel from './ipc/ProcessAudioChannel';
+import ChannelNames from '../shared/ChannelNames';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -138,6 +140,7 @@ app
   .catch(console.log);
 
 registerIpcChannels([
-  new TextFileBatchChannel('batch-text'),
+  new TextFileBatchChannel(ChannelNames.PROCESS_TEXT_FILES_BATCH),
   new FetchHomeDirectoryChannel(),
+  new ProcessAudioChannel(ChannelNames.PROCESS_SIMPLE_TEXT),
 ]);

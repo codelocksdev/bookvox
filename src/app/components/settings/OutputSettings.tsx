@@ -6,6 +6,7 @@ import { OutputFormats } from '../../../shared/types/AwsConstants';
 import TextInput from '../TextInput';
 import Label from '../Label';
 import IpcService from '../../common/ipc/IpcService';
+import ChannelNames from '../../../shared/ChannelNames';
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +42,9 @@ const OutputSettings = ({
 
   useEffect(() => {
     (async function fetchHomeDir() {
-      const homeDir = await ipcService.send<string>('fetch-home-directory');
+      const homeDir = await ipcService.send<string>(
+        ChannelNames.HOME_DIRECTORY
+      );
       setHomeDirectory(`${homeDir}${slash}`);
     })();
   }, [ipcService, setHomeDirectory]);

@@ -2,16 +2,11 @@ import * as os from 'os';
 import path from 'path';
 import { IpcMainEvent } from 'electron';
 import fs from 'fs';
-
-import { IpcHandlerInterface } from './IpcHandlerInterface';
 import { TextFileBatchRequest } from '../../shared/requests/TextFileBatchRequest';
 import AbstractAwsServiceChannel from './AbstractAwsServiceChannel';
 import Book from '../processing/Book';
 
-export default class TextFileBatchChannel
-  extends AbstractAwsServiceChannel
-  implements IpcHandlerInterface
-{
+export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
   private readonly name: string;
 
   constructor(name: string) {
@@ -32,6 +27,7 @@ export default class TextFileBatchChannel
 
     const rawBook: Book = Book.fromTxtFiles(
       request.params.filePaths,
+      this.pollyParams,
       this.polly
     );
 

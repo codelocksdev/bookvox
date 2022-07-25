@@ -4,6 +4,7 @@ import IpcService from '../common/ipc/IpcService';
 import { ConvertAudioChannelResponse } from '../../shared/types/ConvertAudioChannelResponse';
 import { getSrc } from '../common/utils';
 import Toaster from './toasters';
+import ChannelNames from '../../shared/ChannelNames';
 
 interface ButtonPlayerProps {
   text: string;
@@ -20,9 +21,12 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
     if (player.current && src === '') {
       setLoading(true);
       const { base64EncodedAudio } =
-        await ipcService.send<ConvertAudioChannelResponse>('convert-audio', {
-          params: text,
-        });
+        await ipcService.send<ConvertAudioChannelResponse>(
+          ChannelNames.PROCESS_SIMPLE_TEXT,
+          {
+            params: text,
+          }
+        );
       setSrc(getSrc(base64EncodedAudio));
       setLoading(false);
       player.current

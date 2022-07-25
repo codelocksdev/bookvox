@@ -5,6 +5,7 @@ export interface PollyParams {
   TextType: string;
   VoiceId: string;
   OutputFormat: string;
+  speed: string;
 }
 
 export const defaultPollyParams: PollyParams = {
@@ -14,4 +15,5 @@ export const defaultPollyParams: PollyParams = {
   TextType: 'ssml',
   VoiceId: 'salli',
   OutputFormat: 'mp3',
+  speed: '95%',
 };
