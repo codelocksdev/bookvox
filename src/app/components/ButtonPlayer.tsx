@@ -1,21 +1,32 @@
-import { useMemo, useRef, useState } from 'react';
-import { Button, Intent, Spinner } from '@blueprintjs/core';
+import { useEffect, useMemo, useState } from 'react';
+import { Button, Spinner } from '@blueprintjs/core';
+import ReactAudioPlayer from 'react-audio-player';
 import IpcService from '../common/ipc/IpcService';
 import { ConvertAudioChannelResponse } from '../../shared/types/ConvertAudioChannelResponse';
 import { getSrc } from '../common/utils';
-import Toaster from './toasters';
 import ChannelNames from '../../shared/ChannelNames';
+import useAudioControls from '../hooks/useAudioControls';
 
 interface ButtonPlayerProps {
   text: string;
 }
 
 const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
-  const player = useRef<HTMLAudioElement>(null);
   const [src, setSrc] = useState('');
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const ipcService = useMemo(() => new IpcService(), []);
+  const { player, play, stop } = useAudioControls({ base64Src: src });
+
+  useEffect(() => {
+    if (player.current) {
+      if (playing) {
+        play();
+      } else {
+        stop();
+      }
+    }
+  }, [playing, play, stop, player.current]);
 
   const handlePlay = async (): Promise<void> => {
     if (player.current && src === '') {
@@ -29,16 +40,7 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
         );
       setSrc(getSrc(base64EncodedAudio));
       setLoading(false);
-      player.current
-        .play()
-        .then(() => setPlaying(true))
-        .catch(() => {
-          Toaster.show({
-            message: 'Failed to process text.',
-            intent: Intent.DANGER,
-          });
-          setSrc('');
-        });
+      setPlaying(true);
     }
   };
 
@@ -48,9 +50,20 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
     setSrc('');
   };
 
+  const handleEnded = () => {
+    setPlaying(false);
+    setSrc('');
+  };
+
   return (
     <>
-      <audio src={src} style={{ display: 'none' }} ref={player} />
+      <ReactAudioPlayer
+        ref={(element) => {
+          player.current = element?.audioEl.current;
+        }}
+        src={src}
+        onEnded={handleEnded}
+      />
       {loading && <Spinner />}
       {playing ? (
         <Button

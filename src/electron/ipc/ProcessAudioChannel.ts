@@ -32,7 +32,7 @@ class ProcessAudioChannel extends AbstractAwsServiceChannel {
     }
 
     event.sender.send(request.responseChannel, {
-      base64EncodedAudio: audio,
+      base64EncodedAudio: audio.toString('base64'),
       format: this.pollyParams.OutputFormat,
     });
   }

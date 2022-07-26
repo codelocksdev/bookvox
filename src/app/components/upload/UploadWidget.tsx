@@ -3,7 +3,8 @@ import { FileInput, Intent } from '@blueprintjs/core';
 import Dropzone from 'react-dropzone';
 import { useState } from 'react';
 import FileUploadListContainer from './FileUploadListContainer';
-import { InfoToaster } from '../toasters';
+import Toaster from '../toasters';
+import FileUploadItem from './FileUploadItem';
 
 const Container = styled.div`
   margin: auto;
@@ -17,12 +18,15 @@ const Container = styled.div`
 const StyledCard = styled.div`
   flex: 1;
   display: flex;
+  flex-direction: column;
+  gap: 16px;
   justify-content: center;
   align-items: center;
   border-color: #abb3bf;
   border-radius: 8px;
   border-width: 2px;
   border-style: solid;
+  padding: 16px;
 `;
 
 const UploadWidget = () => {
@@ -45,7 +49,7 @@ const UploadWidget = () => {
             <StyledCard
               {...getRootProps({
                 onClick: () =>
-                  InfoToaster.show({
+                  Toaster.show({
                     message: 'Drop files to add to conversion list.',
                     intent: Intent.PRIMARY,
                   }),
@@ -54,6 +58,7 @@ const UploadWidget = () => {
               {/* @ts-ignore */}
               <FileInput {...getInputProps()} />
               <p>Drag and drop .txt chapter files here.</p>
+              <FileUploadItem />
             </StyledCard>
           )}
         </Dropzone>
