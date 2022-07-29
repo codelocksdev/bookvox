@@ -18,8 +18,7 @@ module.exports = {
     'no-await-in-loop': 'off',
     'react/require-default-props': 'off',
     'jsx-a11y/media-has-caption': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    'react-hooks/rules-of-hooks': 'off',
+    'no-underscore-dangle': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react';
 import { getSrc } from '../common/utils';
 
 export interface PlayerControlProps {
-  base64Src: string;
+  base64Src?: string;
   onPlay?: () => void;
   onPause?: () => void;
   onStop?: () => void;
@@ -15,7 +15,10 @@ const useAudioControls = ({
   onPause,
   onPlay,
 }: PlayerControlProps) => {
-  const src = useMemo(() => getSrc(base64Src), [base64Src]);
+  const src = useMemo<string | undefined>(
+    () => base64Src && getSrc(base64Src),
+    [base64Src]
+  );
   const player = useRef<HTMLAudioElement | undefined | null>(undefined);
 
   const play = () => {
