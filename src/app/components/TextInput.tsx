@@ -39,7 +39,7 @@ const TextInput = ({ placeholder, setText, text }: TextInputProps) => {
         value={value}
         fill={false}
         placeholder={placeholder}
-        onChange={handleChange}
+        onInput={handleChange}
       />
     </InputContainer>
   );

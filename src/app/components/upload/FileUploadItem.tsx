@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { Icon } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import ReactAudioPlayer from 'react-audio-player';
-
-import Label from '../Label';
 import useAudioControls from '../../hooks/useAudioControls';
+import FileItem from '../../objects/FileItem';
 
 const Container = styled.div<{ isEven: boolean }>`
   display: flex;
@@ -21,25 +20,20 @@ const Player = styled.div`
   gap: 8px;
 `;
 
-export interface FileItem {
-  fileName: string;
-  base64Src?: string;
-}
-
 const FileUploadItem = ({
-  file: { fileName, base64Src },
+  file: { name, audioBase64Src },
   index,
 }: {
   file: FileItem;
   index: number;
 }) => {
   const { src, play, pause, stop, player } = useAudioControls({
-    base64Src,
+    base64Src: audioBase64Src,
   });
 
   return (
     <Container isEven={index % 2 === 0}>
-      {fileName}
+      {name.replace('.txt', '')}
       {src && (
         <Player>
           <ReactAudioPlayer
@@ -48,9 +42,9 @@ const FileUploadItem = ({
             }}
             src={src}
           />
-          <Icon icon={'stop'} onClick={stop} />
-          <Icon icon={'pause'} onClick={pause} />
-          <Icon icon={'play'} onClick={play} />
+          <Button icon={'stop'} onClick={stop} minimal />
+          <Button icon={'pause'} onClick={pause} minimal />
+          <Button icon={'play'} onClick={play} minimal />
         </Player>
       )}
     </Container>

@@ -25,7 +25,7 @@ export default abstract class AbstractAwsServiceChannel
 
   config(_: IpcMainEvent, request: AwsConfigRequest): void {
     this.awsCredentials = request.params.credentials;
-    this.pollyParams = request.params.options;
+    this.pollyParams = request.params.options || defaultPollyParams;
 
     this.polly = new AWS.Polly({
       params: { ...defaultPollyParams, ...request.params.options },
@@ -33,6 +33,14 @@ export default abstract class AbstractAwsServiceChannel
     });
 
     AWS.config.region = this.awsCredentials.region;
+  }
+
+  protected awsConfigured(): boolean {
+    return (
+      this.awsCredentials &&
+      !(this.awsCredentials.accessKeyId === '') &&
+      !(this.awsCredentials.secretAccessKey === '')
+    );
   }
 
   abstract getChannelName(): string;

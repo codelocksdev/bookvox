@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Intent } from '@blueprintjs/core';
+
 import IpcService from '../common/ipc/IpcService';
 import ChannelNames from '../../shared/ChannelNames';
 import { BookUploadItemProps } from '../components/upload/BookUploadItemProps';
+import { TextBatchChannelResponse } from '../../shared/responses/TextBatchChannelResponse';
+import Toaster from '../components/toasters';
 
 const useBook = ({
   book: { name, files },
@@ -14,35 +18,43 @@ const useBook = ({
   const [processing, setProcessing] = useState(false);
   const [converted, setConverted] = useState(false);
 
-  const processBook = useCallback(
-    () => async () => {
-      setProcessing(true);
-      const base64Sources = await ipcService.send<string[]>(
-        ChannelNames.PROCESS_TEXT_FILES_BATCH,
-        {
-          params: { bookName: name, filePaths: files.map((file) => file.path) },
-        }
-      );
-      setSources(base64Sources);
-      setProcessing(false);
-      setConverted(true);
-    },
-    [name, files, setConverted, setProcessing, setSources, ipcService]
-  );
+  const processBook = useCallback(async () => {
+    setProcessing(true);
+    const response = await ipcService.send<TextBatchChannelResponse>(
+      ChannelNames.PROCESS_TEXT_FILES_BATCH,
+      {
+        params: { bookName: name, filePaths: files.map((file) => file.path) },
+      }
+    );
+
+    if (response.error) throw new Error(response.error);
+
+    setSources(response.audioChapters);
+    setProcessing(false);
+    setConverted(true);
+  }, [name, files, setConverted, setProcessing, setSources, ipcService]);
 
   useEffect(() => {
     (async function checkAndConvert() {
       if (runConvert && !converted) {
-        await processBook();
+        processBook().catch((e: Error) => {
+          Toaster.show({
+            message: e.message,
+            intent: Intent.DANGER,
+            timeout: 8_000,
+          });
+          setProcessing(false);
+          if (convertDone) convertDone();
+        });
       }
     })();
-  }, [runConvert, converted, processBook]);
+  }, [runConvert, converted, processBook, convertDone]);
 
   useEffect(() => {
     if (converted && convertDone) convertDone();
   }, [converted, convertDone]);
 
-  return { sources, processing, converted, bookName, setName };
+  return { sources, processing, converted, bookName, setName, processBook };
 };
 
 export default useBook;

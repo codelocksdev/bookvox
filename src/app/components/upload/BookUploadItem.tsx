@@ -6,6 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import FileUploadItem from './FileUploadItem';
 import useBook from '../../hooks/useBook';
 import { BookUploadItemProps } from './BookUploadItemProps';
+import FileItem from '../../objects/FileItem';
 
 const Container = styled.div`
   width: 100%;
@@ -51,8 +52,8 @@ const FileContainer = styled(PerfectScrollbar)`
 `;
 
 const getIcon = (processing: boolean, converted: boolean) => {
-  if (converted) return <Icon icon={'tick'} intent={Intent.SUCCESS} minimal />;
-  return processing ? <Spinner /> : <Icon icon={'square'} minimal />;
+  if (converted) return <Icon icon={'tick'} intent={Intent.SUCCESS} />;
+  return processing ? <Spinner /> : <Icon icon={'square'} />;
 };
 
 const BookUploadItem = (props: BookUploadItemProps) => {
@@ -64,7 +65,7 @@ const BookUploadItem = (props: BookUploadItemProps) => {
     () =>
       files.map((file, index) => (
         <FileUploadItem
-          file={{ fileName: file.name, base64Src: sources[index] }}
+          file={FileItem.fromFileItemAndSource(file, sources[index])}
           index={index}
         />
       )),

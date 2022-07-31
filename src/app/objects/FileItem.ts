@@ -1,9 +1,9 @@
 class FileItem {
   private _name: string;
   private readonly _path: string;
-  private _audioBase64Src?: string;
+  private _audioBase64Src: string = '';
 
-  private constructor(name: string, path: string, audioBase64Src?: string) {
+  private constructor(name: string, path: string, audioBase64Src: string) {
     this._name = name;
     this._path = path;
     this._audioBase64Src = audioBase64Src;
@@ -13,7 +13,11 @@ class FileItem {
     const { name, path } = file;
     if (path === '') throw new Error('File has no path.');
 
-    return new FileItem(name, path);
+    return new FileItem(name, path, '');
+  }
+
+  public static fromFileItemAndSource(file: FileItem, src: string) {
+    return new FileItem(file.name, file.path, src);
   }
 
   get name(): string {
@@ -28,11 +32,11 @@ class FileItem {
     return this._path;
   }
 
-  get audioBase64Src(): string | undefined {
+  get audioBase64Src(): string {
     return this._audioBase64Src;
   }
 
-  set audioBase64Src(value: string | undefined) {
+  set audioBase64Src(value: string) {
     this._audioBase64Src = value;
   }
 }

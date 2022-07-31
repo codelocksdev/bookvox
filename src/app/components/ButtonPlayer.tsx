@@ -2,16 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button, Spinner } from '@blueprintjs/core';
 import ReactAudioPlayer from 'react-audio-player';
 import IpcService from '../common/ipc/IpcService';
-import { ConvertAudioChannelResponse } from '../../shared/types/ConvertAudioChannelResponse';
+import { ConvertAudioChannelResponse } from '../../shared/responses/ConvertAudioChannelResponse';
 import { getSrc } from '../common/utils';
 import ChannelNames from '../../shared/ChannelNames';
 import useAudioControls from '../hooks/useAudioControls';
 
 interface ButtonPlayerProps {
   text: string;
+  disabled: boolean;
 }
 
-const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
+const ButtonPlayer = ({ text, disabled }: ButtonPlayerProps) => {
   const [src, setSrc] = useState('');
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -26,7 +27,7 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
         stop();
       }
     }
-  }, [playing, play, stop, player.current]);
+  }, [playing, play, stop, player]);
 
   const handlePlay = async (): Promise<void> => {
     if (player.current && src === '') {
@@ -71,6 +72,7 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
           text={'stop'}
           onClick={handleStop}
           loading={loading}
+          disabled={disabled}
         />
       ) : (
         <Button
@@ -78,6 +80,7 @@ const ButtonPlayer = ({ text }: ButtonPlayerProps) => {
           text={'Listen'}
           onClick={handlePlay}
           loading={loading}
+          disabled={disabled}
         />
       )}{' '}
     </>

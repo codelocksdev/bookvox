@@ -38,22 +38,30 @@ export default class Book {
     for (const chunk of chapter) {
       if (chunk.length > 2999) throw new Error('Chapter text too long.');
 
-      const audio = await processTextToAudio(
-        chunk,
-        this.pollyParams,
-        this.polly
-      );
-      bufferArray.push(audio);
+      try {
+        const audio = await processTextToAudio(
+          chunk,
+          this.pollyParams,
+          this.polly
+        );
+        bufferArray.push(audio);
+      } catch (e: unknown) {
+        if (typeof e === 'string') {
+          throw new Error(e);
+        } else if (e instanceof Error) {
+          throw new Error(e.message);
+        }
+      }
     }
 
     return Buffer.concat(bufferArray);
   }
 
-  public async processTextChapters(chapters: string[][]): Promise<Buffer[]> {
+  public async processTextChapters(): Promise<Buffer[]> {
     const chapterAudioBuffers: Buffer[] = [];
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const chapter of chapters) {
+    for (const chapter of this.chapters) {
       const chapterBuffer = await this.processChapter(chapter);
       chapterAudioBuffers.push(chapterBuffer);
     }

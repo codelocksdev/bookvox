@@ -22,8 +22,17 @@ export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
     event: IpcMainEvent,
     request: TextFileBatchRequest
   ): Promise<void> {
-    if (!this.polly)
-      throw new Error('Cannot process book, polly not initialized.');
+    if (!request.responseChannel) {
+      request.responseChannel = `${this.getChannelName()}_response`;
+    }
+
+    if (!this.polly || !this.awsConfigured()) {
+      event.sender.send(request.responseChannel, {
+        error:
+          'Cannot process book. AWS Polly not initialized. Set AWS credentials in settings and try again.',
+      });
+      return;
+    }
 
     const rawBook: Book = Book.fromTxtFiles(
       request.params.filePaths,
@@ -31,19 +40,13 @@ export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
       this.polly
     );
 
-    const audioChapters: Buffer[] = await rawBook.processTextChapters(
-      rawBook.getTextChapters()
-    );
+    const audioChapters: Buffer[] = await rawBook.processTextChapters();
 
     const directory = await this.getOutputDirectory('test-book');
 
     audioChapters.forEach((chapter, index) => {
       fs.writeFileSync(`${directory}/${index}.mp3`, chapter);
     });
-
-    if (!request.responseChannel) {
-      request.responseChannel = `${this.getChannelName()}_response`;
-    }
 
     event.sender.send(request.responseChannel, {
       audioChapters: audioChapters.map((chapter) => chapter.toString('base64')),

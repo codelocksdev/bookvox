@@ -6,6 +6,8 @@ import DropdownChooser from '../DropdownChooser';
 import { VoiceIds } from '../../../shared/types/AwsConstants';
 import Label from '../Label';
 import ButtonPlayer from '../ButtonPlayer';
+import { useAppSelector } from '../../common/state/hooks';
+import { isAwsConfigured } from '../../common/state/selectors';
 
 interface VoiceSettingsProps {
   Engine: string;
@@ -44,6 +46,7 @@ const VoiceSettings = ({
   const [sliderPosition, setSliderPosition] = useState(
     parseFloat(speed.replace('%', '')) / 100
   );
+  const awsConfigured = useAppSelector(isAwsConfigured);
 
   const renderSliderLabel = (value: number) => {
     return `${Math.round(value * 100)}%`;
@@ -93,7 +96,7 @@ const VoiceSettings = ({
             onRelease={updateSpeedSetting}
           />
         </div>
-        <ButtonPlayer text={text} />
+        <ButtonPlayer text={text} disabled={!awsConfigured} />
       </Column>
       <StyledTextArea
         placeholder={'Enter sample text...'}

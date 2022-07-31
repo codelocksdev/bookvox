@@ -46,8 +46,11 @@ export const processTextToAudio = async (
       (err, data) => {
         if (err) {
           reject(err);
-        } else if (!(data.AudioStream instanceof Buffer)) {
+          return;
+        }
+        if (!data || !(data.AudioStream instanceof Buffer)) {
           reject(new Error('Returned audio stream is not a buffer.'));
+          return;
         }
         resolve(data.AudioStream as Buffer);
       }

@@ -7741,6 +7741,11 @@ react-dom@^18.1.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-drag-reorder@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-drag-reorder/-/react-drag-reorder-1.2.0.tgz#218c55e9fdd83869d7ec9c6b9449494b28cbaded"
+  integrity sha512-UXpXvRYorBoJOIaniqDXtU/eKWx1YNk6D2efUk+awXAd2xNJS6DSdwEOrwUZU44XsjKYO54/QC1RmiaL2OqiEg==
+
 react-dropzone@^14.2.2:
   version "14.2.2"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-14.2.2.tgz#a75a0676055fe9e2cb78578df4dedb4c42b54f98"
