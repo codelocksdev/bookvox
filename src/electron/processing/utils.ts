@@ -1,5 +1,8 @@
 import fs from 'fs';
 import { Polly } from 'aws-sdk';
+import path from 'path';
+import os from 'os';
+
 import { PollyParams } from '../../shared/types/PollyParams';
 
 export const makeChunks = (text: string): string[] => {
@@ -25,8 +28,8 @@ export const makeChunks = (text: string): string[] => {
   return chunks;
 };
 
-export const getFileText = (path: string) => {
-  return fs.readFileSync(path).toString();
+export const getFileText = (filePath: string) => {
+  return fs.readFileSync(filePath).toString();
 };
 
 export const processTextToAudio = async (
@@ -52,8 +55,15 @@ export const processTextToAudio = async (
           reject(new Error('Returned audio stream is not a buffer.'));
           return;
         }
-        resolve(data.AudioStream as Buffer);
+        resolve(data.AudioStream);
       }
     );
   });
+};
+
+export const getOutputDirectory = (name: string): string => {
+  const directory = path.join(os.homedir(), `${name}`);
+  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true });
+
+  return directory;
 };

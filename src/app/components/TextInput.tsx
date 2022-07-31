@@ -1,4 +1,4 @@
-import { InputGroup } from '@blueprintjs/core';
+import { InputGroup, Intent } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 
@@ -15,9 +15,15 @@ interface TextInputProps {
   placeholder: string;
   text: string;
   setText(text: string): void;
+  intent?: Intent;
 }
 
-const TextInput = ({ placeholder, setText, text }: TextInputProps) => {
+const TextInput = ({
+  placeholder,
+  setText,
+  text,
+  intent = Intent.NONE,
+}: TextInputProps) => {
   const [value, setValue] = useState(text);
 
   useEffect(() => {
@@ -40,6 +46,7 @@ const TextInput = ({ placeholder, setText, text }: TextInputProps) => {
         fill={false}
         placeholder={placeholder}
         onInput={handleChange}
+        intent={intent}
       />
     </InputContainer>
   );

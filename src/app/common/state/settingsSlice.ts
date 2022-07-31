@@ -6,6 +6,7 @@ import Settings from '../types/Settings';
 const initialState: Settings = {
   accessKeyId: '',
   secretAccessKey: '',
+  credentialsVerified: false,
   region: 'us-east-1',
   Engine: 'neural',
   LanguageCode: 'en-US',
@@ -25,9 +26,23 @@ export const settingsSlice = createSlice({
     setSettings: (state, action: PayloadAction<{ [key: string]: string }>) => {
       return { ...state, ...action.payload };
     },
+    setAwsCredentials: (
+      state,
+      {
+        payload: { accessKeyId, secretAccessKey, credentialsVerified },
+      }: PayloadAction<{
+        accessKeyId: string;
+        secretAccessKey: string;
+        credentialsVerified: boolean;
+      }>
+    ) => {
+      state.accessKeyId = accessKeyId;
+      state.secretAccessKey = secretAccessKey;
+      state.credentialsVerified = credentialsVerified;
+    },
   },
 });
 
-export const { setSettings } = settingsSlice.actions;
+export const { setSettings, setAwsCredentials } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

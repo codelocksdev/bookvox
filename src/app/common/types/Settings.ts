@@ -1,6 +1,7 @@
 interface Settings {
   accessKeyId: string;
   secretAccessKey: string;
+  credentialsVerified: boolean;
   region: string;
   Engine: string;
   LanguageCode: string;
@@ -10,6 +11,7 @@ interface Settings {
   VoiceId: string;
   outputDirectory: string;
   speed: string;
+  [key: string]: string | boolean;
 }
 
 export default Settings;

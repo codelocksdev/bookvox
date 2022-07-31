@@ -1,10 +1,10 @@
-import * as os from 'os';
 import path from 'path';
 import { IpcMainEvent } from 'electron';
 import fs from 'fs';
 import { TextFileBatchRequest } from '../../shared/requests/TextFileBatchRequest';
 import AbstractAwsServiceChannel from './AbstractAwsServiceChannel';
 import Book from '../processing/Book';
+import { getOutputDirectory } from '../processing/utils';
 
 export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
   private readonly name: string;
@@ -20,14 +20,15 @@ export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
 
   async handle(
     event: IpcMainEvent,
-    request: TextFileBatchRequest
+    {
+      responseChannel,
+      params: { bookName, bookvoxMainDirectory, fileInfo },
+    }: TextFileBatchRequest
   ): Promise<void> {
-    if (!request.responseChannel) {
-      request.responseChannel = `${this.getChannelName()}_response`;
-    }
+    const channel = responseChannel || `${this.getChannelName()}_response`;
 
     if (!this.polly || !this.awsConfigured()) {
-      event.sender.send(request.responseChannel, {
+      event.sender.send(channel, {
         error:
           'Cannot process book. AWS Polly not initialized. Set AWS credentials in settings and try again.',
       });
@@ -35,35 +36,26 @@ export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
     }
 
     const rawBook: Book = Book.fromTxtFiles(
-      request.params.filePaths,
+      fileInfo,
       this.pollyParams,
       this.polly
     );
 
     const audioChapters: Buffer[] = await rawBook.processTextChapters();
 
-    const directory = await this.getOutputDirectory('test-book');
+    const directory = getOutputDirectory(
+      path.join(bookvoxMainDirectory, bookName)
+    );
 
     audioChapters.forEach((chapter, index) => {
-      fs.writeFileSync(`${directory}/${index}.mp3`, chapter);
+      fs.writeFileSync(
+        `${directory}/${fileInfo[index].name.replace('.txt', '')}.mp3`,
+        chapter
+      );
     });
 
-    event.sender.send(request.responseChannel, {
+    event.sender.send(channel, {
       audioChapters: audioChapters.map((chapter) => chapter.toString('base64')),
-    });
-  }
-
-  private async getOutputDirectory(name: string): Promise<string> {
-    const directory = path.join(os.homedir(), `${name}`);
-
-    return new Promise((resolve, reject) => {
-      if (!fs.existsSync(directory)) {
-        fs.mkdir(directory, (err) => {
-          if (err) reject(err);
-          resolve(directory);
-        });
-      }
-      resolve(directory);
     });
   }
 }

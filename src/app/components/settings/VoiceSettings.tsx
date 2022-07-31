@@ -7,7 +7,7 @@ import { VoiceIds } from '../../../shared/types/AwsConstants';
 import Label from '../Label';
 import ButtonPlayer from '../ButtonPlayer';
 import { useAppSelector } from '../../common/state/hooks';
-import { isAwsConfigured } from '../../common/state/selectors';
+import { RootState } from '../../common/state/store';
 
 interface VoiceSettingsProps {
   Engine: string;
@@ -46,7 +46,9 @@ const VoiceSettings = ({
   const [sliderPosition, setSliderPosition] = useState(
     parseFloat(speed.replace('%', '')) / 100
   );
-  const awsConfigured = useAppSelector(isAwsConfigured);
+  const awsConfigured = useAppSelector(
+    (state: RootState) => state.settings.credentialsVerified
+  );
 
   const renderSliderLabel = (value: number) => {
     return `${Math.round(value * 100)}%`;

@@ -84,7 +84,7 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
         destination,
       }));
     })();
-  }, [ipcService, destinationFolder]);
+  }, [ipcService, destinationFolder, setBook]);
 
   const handleAddBook = useCallback(() => {
     addBook(book);
@@ -122,7 +122,10 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
   const renderFile = (file: FileItem, index: number) => {
     const isEven = index % 2 === 0;
     return (
-      <ListItem isEven={isEven}>
+      <ListItem
+        key={`add-book-file-item-${index}--${file.name}`}
+        isEven={isEven}
+      >
         <EditableText
           defaultValue={file.name.replace('.txt', '')}
           onConfirm={(input) => {
@@ -178,7 +181,13 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
         inputProps={{ accept: '.txt', multiple: true }}
         onInputChange={handleAddChapters}
       />
-      <Button icon={'tick'} text={'Add ook'} onClick={handleAddBook} large />
+      <Button
+        icon={'tick'}
+        text={'Add Book'}
+        onClick={handleAddBook}
+        disabled={book.name === ''}
+        large
+      />
     </WizardContainer>
   );
 };

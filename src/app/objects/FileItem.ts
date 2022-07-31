@@ -1,3 +1,5 @@
+import { FileInfo } from '../../shared/types/FileInfo';
+
 class FileItem {
   private _name: string;
   private readonly _path: string;
@@ -38,6 +40,10 @@ class FileItem {
 
   set audioBase64Src(value: string) {
     this._audioBase64Src = value;
+  }
+
+  public getInfo(): FileInfo {
+    return { name: this._name, path: this._path };
   }
 }
 

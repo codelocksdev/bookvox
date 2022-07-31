@@ -64,6 +64,7 @@ const UploadWidget = () => {
       <StyledCard>
         {bookList.map((book) => (
           <BookUploadItem
+            key={`book-upload-item-${book.name}`}
             book={book}
             runConvert={runConvert}
             convertDone={handleDone}

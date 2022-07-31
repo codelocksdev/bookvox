@@ -1,6 +1,7 @@
 import { Polly } from 'aws-sdk';
 import { getFileText, makeChunks, processTextToAudio } from './utils';
 import { PollyParams } from '../../shared/types/PollyParams';
+import { FileInfo } from '../../shared/types/FileInfo';
 
 export default class Book {
   private readonly chapters: string[][];
@@ -22,12 +23,14 @@ export default class Book {
   }
 
   public static fromTxtFiles(
-    filePaths: string[],
+    filePaths: FileInfo[],
     pollyParams: PollyParams,
     polly: Polly
   ): Book {
     const chapters: string[][] = [];
-    filePaths.forEach((file) => chapters.push(makeChunks(getFileText(file))));
+    filePaths.forEach((file) =>
+      chapters.push(makeChunks(getFileText(file.path)))
+    );
 
     return new Book(chapters, pollyParams, polly);
   }

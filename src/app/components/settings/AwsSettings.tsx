@@ -1,10 +1,9 @@
 import { Icon, Intent, Position, Tooltip } from '@blueprintjs/core';
 import styled from 'styled-components';
-
-import TextInput from '../TextInput';
 import Region from '../../../shared/types/Region';
 import DropdownChooser from '../DropdownChooser';
 import Label from '../Label';
+import KeysInput from './credentials/KeysInput';
 
 const Container = styled.div`
   display: flex;
@@ -15,19 +14,11 @@ const Container = styled.div`
 `;
 
 interface AwsSettingsProps {
-  accessKeyId?: string;
-  setAccessKeyId(key: string): void;
-  secretAccessKey?: string;
-  setSecretAccessKey(key: string): void;
   region: string;
   setRegion(region: string): void;
 }
 
 const AwsSettings = ({
-  accessKeyId,
-  setAccessKeyId,
-  secretAccessKey,
-  setSecretAccessKey,
   region = Region.US_EAST_1,
   setRegion,
 }: AwsSettingsProps) => {
@@ -49,16 +40,7 @@ const AwsSettings = ({
             />
           </Tooltip>
         </Label>
-        <TextInput
-          placeholder={'Access Key Id'}
-          text={accessKeyId || ''}
-          setText={setAccessKeyId}
-        />
-        <TextInput
-          placeholder={'Secret Access Key'}
-          text={secretAccessKey || ''}
-          setText={setSecretAccessKey}
-        />
+        <KeysInput />
       </div>
       <DropdownChooser
         label={'Region'}

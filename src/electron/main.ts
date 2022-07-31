@@ -17,6 +17,7 @@ import TextFileBatchChannel from './ipc/TextFileBatchChannel';
 import FetchHomeDirectoryChannel from './ipc/FetchHomeDirectoryChannel';
 import ProcessAudioChannel from './ipc/ProcessAudioChannel';
 import ChannelNames from '../shared/ChannelNames';
+import PollyCredentialsVerificationChannel from './ipc/PollyCredentialsVerificationChannel';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -41,7 +42,7 @@ if (isDebug) {
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
+  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
   return installer
     .default(
@@ -143,4 +144,5 @@ registerIpcChannels([
   new TextFileBatchChannel(ChannelNames.PROCESS_TEXT_FILES_BATCH),
   new FetchHomeDirectoryChannel(),
   new ProcessAudioChannel(ChannelNames.PROCESS_SIMPLE_TEXT),
+  new PollyCredentialsVerificationChannel(ChannelNames.VERIFY_AWS),
 ]);
