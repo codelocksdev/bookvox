@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import BookItem from '../../objects/BookItem';
 import BookUploadItem from './BookUploadItem';
-import AddBookWizard from './AddBookWizard';
+import AddBookDialog from './AddBookDialog';
 
 const Container = styled.div`
   margin: auto;
@@ -59,6 +59,10 @@ const UploadWidget = () => {
     setBookList((prevState) => [...prevState, book]);
   };
 
+  const removeBook = (book: BookItem) => {
+    setBookList((prevState) => prevState.filter((item) => item !== book));
+  };
+
   return (
     <Container>
       <StyledCard>
@@ -68,6 +72,7 @@ const UploadWidget = () => {
             book={book}
             runConvert={runConvert}
             convertDone={handleDone}
+            removeBook={removeBook}
           />
         ))}
       </StyledCard>
@@ -85,7 +90,7 @@ const UploadWidget = () => {
           large
         />
       </ButtonBar>
-      <AddBookWizard
+      <AddBookDialog
         addBook={addBook}
         setShow={setShowWizard}
         show={showWizard}

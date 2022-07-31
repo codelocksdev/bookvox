@@ -59,8 +59,10 @@ const getIcon = (processing: boolean, converted: boolean) => {
 const BookUploadItem = (props: BookUploadItemProps) => {
   const {
     book: { files, destination },
+    removeBook,
   } = props;
-  const { sources, processing, bookName, setName, converted } = useBook(props);
+  const { sources, processing, bookName, setName, converted, convert, book } =
+    useBook(props);
   const fileItems = useMemo(
     () =>
       files.map((file, index) => (
@@ -96,8 +98,13 @@ const BookUploadItem = (props: BookUploadItemProps) => {
         <FileContainer>{fileItems}</FileContainer>
       </MiddleColumn>
       <SideColumn>
-        <Button icon={'refresh'} minimal />
-        <Button icon={'trash'} intent={Intent.DANGER} minimal />
+        <Button icon={'refresh'} minimal onClick={convert} />
+        <Button
+          icon={'trash'}
+          intent={Intent.DANGER}
+          minimal
+          onClick={() => removeBook(book)}
+        />
       </SideColumn>
     </Container>
   );

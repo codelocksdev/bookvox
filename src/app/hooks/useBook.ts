@@ -9,11 +9,8 @@ import Toaster from '../components/toasters';
 import { useAppSelector } from '../common/state/hooks';
 import { RootState } from '../common/state/store';
 
-const useBook = ({
-  book: { name, files },
-  runConvert,
-  convertDone,
-}: BookUploadItemProps) => {
+const useBook = ({ book, runConvert, convertDone }: BookUploadItemProps) => {
+  const { name, files } = book;
   const bookvoxMainDirectory = useAppSelector(
     (state: RootState) => state.settings.outputDirectory
   );
@@ -51,27 +48,29 @@ const useBook = ({
     bookvoxMainDirectory,
   ]);
 
+  const convert = useCallback(() => {
+    processBook().catch((e: Error) => {
+      Toaster.show({
+        message: e.message,
+        intent: Intent.DANGER,
+        timeout: 8_000,
+      });
+      setProcessing(false);
+      if (convertDone) convertDone();
+    });
+  }, [processBook, setProcessing, convertDone]);
+
   useEffect(() => {
-    (async function checkAndConvert() {
-      if (runConvert && !converted) {
-        processBook().catch((e: Error) => {
-          Toaster.show({
-            message: e.message,
-            intent: Intent.DANGER,
-            timeout: 8_000,
-          });
-          setProcessing(false);
-          if (convertDone) convertDone();
-        });
-      }
-    })();
-  }, [runConvert, converted, processBook, convertDone]);
+    if (runConvert && !converted) {
+      convert();
+    }
+  }, [runConvert, converted, convert]);
 
   useEffect(() => {
     if (converted && convertDone) convertDone();
   }, [converted, convertDone]);
 
-  return { sources, processing, converted, bookName, setName, processBook };
+  return { book, sources, processing, converted, bookName, setName, convert };
 };
 
 export default useBook;

@@ -6,54 +6,19 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  Button,
-  Dialog,
-  EditableText,
-  FileInput,
-  Intent,
-} from '@blueprintjs/core';
-import styled from 'styled-components';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-
-import Label from '../Label';
+import { Button, EditableText, FileInput, Intent } from '@blueprintjs/core';
 import BookItem from '../../objects/BookItem';
 import FileItem from '../../objects/FileItem';
 import IpcService from '../../common/ipc/IpcService';
 import ChannelNames from '../../../shared/ChannelNames';
 import { useAppSelector } from '../../common/state/hooks';
 import { RootState } from '../../common/state/store';
-
-const WizardContainer = styled(Dialog)`
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const HeaderText = styled(Label)`
-  font-size: 16px;
-`;
-
-const ListBox = styled(PerfectScrollbar)`
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  border-color: white;
-  border-radius: 4px;
-  border-style: solid;
-  height: 128px;
-  background-color: #1c2127;
-`;
-
-const ListItem = styled.div<{ isEven: boolean }>`
-  padding: 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: ${({ isEven }) => (isEven ? '#1C2127' : '#252A31')};
-`;
+import {
+  AddBookDialogContainer,
+  HeaderText,
+  ListBox,
+  ListItem,
+} from '../styled';
 
 interface AddBookWizardProps {
   show: boolean;
@@ -61,13 +26,10 @@ interface AddBookWizardProps {
   addBook(book: BookItem): void;
 }
 
-const emptyBook: BookItem = { name: '', destination: '', files: [] };
 const slash = window.navigator.platform === 'Win32' ? '\\' : '/';
 
 // todo --  this file needs lots of cleanup and moving of sub-components to their own files
-const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
-  const [book, setBook] = useState<BookItem>(emptyBook);
-  const files = useRef<Map<string, FileItem>>(new Map());
+const AddBookDialog = ({ show, setShow, addBook }: AddBookWizardProps) => {
   const ipcService = useMemo(() => new IpcService(), []);
   const destinationFolder = useAppSelector(
     (store: RootState) => store.settings.outputDirectory
@@ -85,41 +47,6 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
       }));
     })();
   });
-
-  const handleAddBook = useCallback(() => {
-    addBook(book);
-    setBook(emptyBook);
-    setShow(false);
-    files.current = new Map();
-  }, [book, addBook, setShow, setBook]);
-
-  const handleClose = useCallback(() => {
-    setBook(emptyBook);
-    setShow(false);
-    files.current = new Map();
-  }, [setBook, setShow]);
-
-  const handleSetBookName = useCallback((name: string) => {
-    setBook((prevState) => ({
-      ...prevState,
-      name,
-    }));
-  }, []);
-
-  const handleAddChapters: FormEventHandler<HTMLInputElement> = (event) => {
-    // @ts-ignore
-    const newFiles: File[] = Array.from(event.target.files as FileList);
-
-    newFiles.forEach((file) => {
-      if (files.current && !files.current.has(file.path))
-        files.current.set(file.path, FileItem.fromFile(file));
-    });
-
-    setBook((prevState) => ({
-      ...prevState,
-      files: Array.from(files.current.values()),
-    }));
-  };
 
   const renderFile = (file: FileItem, index: number) => {
     const isEven = index % 2 === 0;
@@ -160,7 +87,11 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
   };
 
   return (
-    <WizardContainer className={'bp4-dark'} isOpen={show} onClose={handleClose}>
+    <AddBookDialogContainer
+      className={'bp4-dark'}
+      isOpen={show}
+      onClose={handleClose}
+    >
       <HeaderText>Add a Book</HeaderText>
       <div
         style={{
@@ -190,8 +121,8 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
         disabled={book.name === ''}
         large
       />
-    </WizardContainer>
+    </AddBookDialogContainer>
   );
 };
 
-export default AddBookWizard;
+export default AddBookDialog;
