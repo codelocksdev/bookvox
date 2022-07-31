@@ -84,17 +84,19 @@ const AddBookWizard = ({ show, setShow, addBook }: AddBookWizardProps) => {
         destination,
       }));
     })();
-  }, [ipcService, destinationFolder, setBook]);
+  });
 
   const handleAddBook = useCallback(() => {
     addBook(book);
     setBook(emptyBook);
     setShow(false);
+    files.current = new Map();
   }, [book, addBook, setShow, setBook]);
 
   const handleClose = useCallback(() => {
     setBook(emptyBook);
     setShow(false);
+    files.current = new Map();
   }, [setBook, setShow]);
 
   const handleSetBookName = useCallback((name: string) => {
