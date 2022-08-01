@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-
 import { Card } from '@blueprintjs/core';
 
-import Label from '../../Label';
+import { Label } from '../../styled';
 import KeysInput from './KeysInput';
 
 const Container = styled(Card)`

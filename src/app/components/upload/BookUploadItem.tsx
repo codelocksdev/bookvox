@@ -7,41 +7,12 @@ import FileUploadItem from './FileUploadItem';
 import useBook from '../../hooks/useBook';
 import { BookUploadItemProps } from './BookUploadItemProps';
 import FileItem from '../../objects/FileItem';
-
-const Container = styled.div`
-  width: 100%;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  background-color: #383e47;
-  display: flex;
-  flex-direction: row;
-  padding: 8px;
-  border-radius: 8px;
-  gap: 16px;
-`;
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const SideColumn = styled(Column)`
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-`;
-
-const MiddleColumn = styled(Column)`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+import {
+  BookUploadContainer,
+  SideColumn,
+  MiddleColumn,
+  FlexRow,
+} from '../styled';
 
 const FileContainer = styled(PerfectScrollbar)`
   border-radius: 8px;
@@ -79,10 +50,10 @@ const BookUploadItem = (props: BookUploadItemProps) => {
   );
 
   return (
-    <Container>
+    <BookUploadContainer>
       <SideColumn>{indicator}</SideColumn>
       <MiddleColumn>
-        <Row>
+        <FlexRow>
           <h2>
             <EditableText
               placeholder={'Book name...'}
@@ -90,11 +61,11 @@ const BookUploadItem = (props: BookUploadItemProps) => {
               onConfirm={setName}
             />
           </h2>
-        </Row>
-        <Row>
+        </FlexRow>
+        <FlexRow>
           <b>Save location:</b>
           {`${destination}${bookName}`}
-        </Row>
+        </FlexRow>
         <FileContainer>{fileItems}</FileContainer>
       </MiddleColumn>
       <SideColumn>
@@ -106,7 +77,7 @@ const BookUploadItem = (props: BookUploadItemProps) => {
           onClick={() => removeBook(book)}
         />
       </SideColumn>
-    </Container>
+    </BookUploadContainer>
   );
 };
 

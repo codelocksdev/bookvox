@@ -18,7 +18,7 @@ const initialState: Settings = {
   speed: '95%',
 };
 
-export const settingsSlice = createSlice({
+const settingsSlice = createSlice({
   name: 'counter',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,

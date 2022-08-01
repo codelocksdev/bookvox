@@ -1,26 +1,11 @@
-import styled from 'styled-components';
 import { useEffect, useMemo, useState } from 'react';
 
 import DropdownChooser from '../DropdownChooser';
 import { OutputFormats } from '../../../shared/types/AwsConstants';
 import TextInput from '../TextInput';
-import Label from '../Label';
 import IpcService from '../../common/ipc/IpcService';
 import ChannelNames from '../../../shared/ChannelNames';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-`;
+import { Label, OutputSettingsCard, OutputSettingsHeader } from '../styled';
 
 const slash = window.navigator.platform === 'Win32' ? '\\' : '/';
 
@@ -50,17 +35,17 @@ const OutputSettings = ({
   }, [ipcService, setHomeDirectory]);
 
   return (
-    <Container>
+    <OutputSettingsCard>
       <div>
         <Label>Output</Label>
-        <Row>
+        <OutputSettingsHeader>
           {homeDirectory}
           <TextInput
             placeholder={'Output Directory'}
             text={outputDirectory}
             setText={setOutputDirectory}
           />
-        </Row>
+        </OutputSettingsHeader>
       </div>
       <DropdownChooser
         label={'File Format'}
@@ -68,7 +53,7 @@ const OutputSettings = ({
         selected={OutputFormat}
         setSelection={setOutputFormat}
       />
-    </Container>
+    </OutputSettingsCard>
   );
 };
 

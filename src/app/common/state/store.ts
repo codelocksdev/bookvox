@@ -1,5 +1,7 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
+
 import settingsReducer, { setSettings } from './settingsSlice';
+import libraryReducer from './librarySlice';
 import IpcService from '../ipc/IpcService';
 import ChannelNames from '../../../shared/ChannelNames';
 
@@ -47,6 +49,7 @@ listenerMiddleware.startListening({
 export const store = configureStore({
   reducer: {
     settings: settingsReducer,
+    library: libraryReducer,
   },
   // Add the listener middleware to the store.
   // NOTE: Since this can receive actions with functions inside,

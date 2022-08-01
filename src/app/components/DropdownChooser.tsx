@@ -1,13 +1,7 @@
 import { ChangeEvent } from 'react';
 import { HTMLSelect } from '@blueprintjs/core';
-import styled from 'styled-components';
 
-import Label from './Label';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import { FlexColumn, Label } from './styled';
 
 interface DropdownChooserProps {
   label?: string;
@@ -27,7 +21,7 @@ const DropdownChooser = ({
   };
 
   return (
-    <Container>
+    <FlexColumn>
       {label && <Label>{label}</Label>}
       <HTMLSelect large onChange={handleSelect} defaultValue={selected}>
         {options.map((choice) => (
@@ -36,7 +30,7 @@ const DropdownChooser = ({
           </option>
         ))}
       </HTMLSelect>
-    </Container>
+    </FlexColumn>
   );
 };
 

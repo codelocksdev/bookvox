@@ -1,41 +1,10 @@
-import styled from 'styled-components';
-import { Button } from '@blueprintjs/core';
 import { useRef, useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Button } from '@blueprintjs/core';
+
 import BookItem from '../../objects/BookItem';
 import BookUploadItem from './BookUploadItem';
-import AddBookDialog from './AddBookDialog';
-
-const Container = styled.div`
-  margin: auto;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100%;
-  gap: 8px;
-`;
-
-const StyledCard = styled(PerfectScrollbar)`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-  border-color: #abb3bf;
-  border-radius: 8px;
-  border-width: 2px;
-  border-style: solid;
-  padding: 16px;
-`;
-
-const ButtonBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 16px;
-`;
+import AddBookDialog from './add-book-dialog/AddBookDialog';
+import { UploadWidgetContainer, UploadWidgetCard, ButtonBar } from '../styled';
 
 const UploadWidget = () => {
   const [runConvert, setRunConvert] = useState(false);
@@ -64,8 +33,8 @@ const UploadWidget = () => {
   };
 
   return (
-    <Container>
-      <StyledCard>
+    <UploadWidgetContainer>
+      <UploadWidgetCard>
         {bookList.map((book) => (
           <BookUploadItem
             key={`book-upload-item-${book.name}`}
@@ -75,7 +44,7 @@ const UploadWidget = () => {
             removeBook={removeBook}
           />
         ))}
-      </StyledCard>
+      </UploadWidgetCard>
       <ButtonBar>
         <Button
           icon={'plus'}
@@ -95,7 +64,7 @@ const UploadWidget = () => {
         setShow={setShowWizard}
         show={showWizard}
       />
-    </Container>
+    </UploadWidgetContainer>
   );
 };
 

@@ -1,31 +1,12 @@
 import React, { useState } from 'react';
-import { Card, Collapse, Divider, Icon } from '@blueprintjs/core';
-import styled from 'styled-components';
+import { Collapse, Icon } from '@blueprintjs/core';
 
-const StyledCard = styled(Card)`
-  width: 100%;
-  padding: 0;
-  margin-top: 16px;
-  margin-bottom: 16px;
-`;
-
-const Header = styled.div`
-  cursor: pointer;
-  color: #8abbff;
-  font-weight: 400;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledContent = styled.div`
-  padding: 16px;
-`;
-
-const StyledDivider = styled(Divider)`
-  margin-left: 16px;
-  margin-right: 16px;
-`;
+import {
+  AccordionContainer,
+  AccordionHeader,
+  AccordionContent,
+  StyledDivider,
+} from './styled';
 
 interface AccordionItemProps {
   headerText: string;
@@ -40,16 +21,16 @@ const AccordionItem = ({ headerText, children }: AccordionItemProps) => {
   };
 
   return (
-    <StyledCard>
-      <Header onClick={toggleAccordion}>
+    <AccordionContainer>
+      <AccordionHeader onClick={toggleAccordion}>
         <b>{headerText}</b>
         <Icon icon={isOpen ? 'caret-up' : 'caret-down'} />
-      </Header>
+      </AccordionHeader>
       <Collapse isOpen={isOpen}>
         <StyledDivider />
-        <StyledContent>{children}</StyledContent>
+        <AccordionContent>{children}</AccordionContent>
       </Collapse>
-    </StyledCard>
+    </AccordionContainer>
   );
 };
 

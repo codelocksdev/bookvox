@@ -1,24 +1,9 @@
-import styled from 'styled-components';
 import { Button } from '@blueprintjs/core';
 import ReactAudioPlayer from 'react-audio-player';
+
 import useAudioControls from '../../hooks/useAudioControls';
 import FileItem from '../../objects/FileItem';
-
-const Container = styled.div<{ isEven: boolean }>`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px;
-  width: 100%;
-  background-color: ${({ isEven }) => (isEven ? '#1C2127' : '#252A31')};
-`;
-
-const Player = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-`;
+import { AudioPlayer, FileUploadItemContainer } from '../styled';
 
 const FileUploadItem = ({
   file: { name, audioBase64Src },
@@ -32,10 +17,10 @@ const FileUploadItem = ({
   });
 
   return (
-    <Container isEven={index % 2 === 0}>
+    <FileUploadItemContainer isEven={index % 2 === 0}>
       {name.replace('.txt', '')}
       {src && (
-        <Player>
+        <AudioPlayer>
           <ReactAudioPlayer
             ref={(element) => {
               player.current = element?.audioEl.current;
@@ -45,9 +30,9 @@ const FileUploadItem = ({
           <Button icon={'stop'} onClick={stop} minimal />
           <Button icon={'pause'} onClick={pause} minimal />
           <Button icon={'play'} onClick={play} minimal />
-        </Player>
+        </AudioPlayer>
       )}
-    </Container>
+    </FileUploadItemContainer>
   );
 };
 

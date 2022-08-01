@@ -1,23 +1,15 @@
-import styled from 'styled-components';
-
 import VoiceSettings from '../components/settings/VoiceSettings';
 import AwsSettings from '../components/settings/AwsSettings';
 import AccordionItem from '../components/AccordionItem';
 import OutputSettings from '../components/settings/OutputSettings';
 import useSettings from '../hooks/useSettings';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 16px;
-`;
+import { SettingsContainer } from '../components/styled';
 
 const Settings = () => {
   const settings = useSettings();
 
   return (
-    <Container>
+    <SettingsContainer>
       <AccordionItem headerText={'Output Settings'}>
         <OutputSettings {...settings} />
       </AccordionItem>
@@ -27,7 +19,7 @@ const Settings = () => {
       <AccordionItem headerText={'AWS Account Settings'}>
         <AwsSettings {...settings} />
       </AccordionItem>
-    </Container>
+    </SettingsContainer>
   );
 };
 

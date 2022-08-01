@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react';
 
 import DropdownChooser from '../DropdownChooser';
 import { VoiceIds } from '../../../shared/types/AwsConstants';
-import Label from '../Label';
+import { FlexRow, Label, VoiceSettingsCard } from '../styled';
 import ButtonPlayer from '../ButtonPlayer';
 import { useAppSelector } from '../../common/state/hooks';
 import { RootState } from '../../common/state/store';
@@ -17,17 +17,6 @@ interface VoiceSettingsProps {
   speed: string;
   setSpeed(speed: string): void;
 }
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
 const StyledTextArea = styled(TextArea)`
   flex: 1;
@@ -65,8 +54,8 @@ const VoiceSettings = ({
   };
 
   return (
-    <Row>
-      <Column>
+    <FlexRow>
+      <VoiceSettingsCard>
         <div>
           <Label>AWS Polly Engine</Label>
           <RadioGroup
@@ -99,13 +88,13 @@ const VoiceSettings = ({
           />
         </div>
         <ButtonPlayer text={text} disabled={!awsConfigured} />
-      </Column>
+      </VoiceSettingsCard>
       <StyledTextArea
         placeholder={'Enter sample text...'}
         maxLength={300}
         onChange={onTextInput}
       />
-    </Row>
+    </FlexRow>
   );
 };
 

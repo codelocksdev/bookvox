@@ -1,15 +1,7 @@
 import { InputGroup, Intent } from '@blueprintjs/core';
-import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
-`;
+import { InputContainer } from './styled';
 
 interface TextInputProps {
   placeholder: string;

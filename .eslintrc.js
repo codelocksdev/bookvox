@@ -19,6 +19,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'jsx-a11y/media-has-caption': 'off',
     'no-underscore-dangle': 'off',
+    'react-hooks/rules-of-hooks': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
