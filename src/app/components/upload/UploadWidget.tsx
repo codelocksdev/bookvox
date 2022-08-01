@@ -32,9 +32,18 @@ const UploadWidget = () => {
     setBookList((prevState) => prevState.filter((item) => item !== book));
   };
 
+  const handleCardClick = () => {
+    if (bookList.length === 0) {
+      setShowWizard(true);
+    }
+  };
+
   return (
     <UploadWidgetContainer>
-      <UploadWidgetCard>
+      <UploadWidgetCard
+        onClick={handleCardClick}
+        listEmpty={bookList.length === 0}
+      >
         {bookList.map((book) => (
           <BookUploadItem
             key={`book-upload-item-${book.name}`}
@@ -44,6 +53,9 @@ const UploadWidget = () => {
             removeBook={removeBook}
           />
         ))}
+        {bookList.length === 0 && (
+          <>Click to add a book to the convert queue!</>
+        )}
       </UploadWidgetCard>
       <ButtonBar>
         <Button

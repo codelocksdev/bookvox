@@ -139,7 +139,9 @@ export const UploadWidgetContainer = styled.div`
   gap: 8px;
 `;
 
-export const UploadWidgetCard = styled(PerfectScrollbar)`
+export const UploadWidgetCard = styled(PerfectScrollbar)<{
+  listEmpty: boolean;
+}>`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -151,6 +153,7 @@ export const UploadWidgetCard = styled(PerfectScrollbar)`
   border-width: 2px;
   border-style: solid;
   padding: 16px;
+  cursor: ${({ listEmpty }) => (listEmpty ? 'pointer' : 'auto')};
 `;
 
 export const ButtonBar = styled(FlexRow)`
