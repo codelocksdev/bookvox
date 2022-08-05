@@ -1,6 +1,19 @@
 import styled from 'styled-components';
-import { Card, Dialog, Divider } from '@blueprintjs/core';
+import { Button, Card, Dialog, Divider, TextArea } from '@blueprintjs/core';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+
+export const BookvoxContainer = styled(PerfectScrollbar)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
+
+export const BookvoxContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 8px;
+`;
 
 export const FlexColumn = styled.div`
   display: flex;
@@ -156,8 +169,9 @@ export const UploadWidgetCard = styled(PerfectScrollbar)<{
   cursor: ${({ listEmpty }) => (listEmpty ? 'pointer' : 'auto')};
 `;
 
-export const ButtonBar = styled(FlexRow)`
-  justify-content: flex-end;
+export const ButtonBar = styled(FlexRow)<{ center?: boolean }>`
+  width: 100%;
+  justify-content: ${({ center }) => (center ? 'center' : 'flex-end')};
   gap: 16px;
 `;
 
@@ -172,4 +186,25 @@ export const SettingsContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   padding: 16px;
+`;
+
+export const FullWidthButton = styled(Button)`
+  width: 100%;
+`;
+
+export const FileContainer = styled(PerfectScrollbar)`
+  border-radius: 8px;
+  background-color: #1c2127;
+  box-shadow: inset 0 3px 10px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  max-height: 200px;
+`;
+
+export const CenteredCard = styled(Card)`
+  margin: auto;
+`;
+
+export const SampleTextContainer = styled(TextArea)`
+  flex: 1;
+  margin-left: 32px;
 `;

@@ -1,12 +1,16 @@
-import styled from 'styled-components';
-import { Radio, RadioGroup, Slider, TextArea } from '@blueprintjs/core';
+import { Radio, RadioGroup, Slider } from '@blueprintjs/core';
 import { ChangeEvent, useState } from 'react';
 
 import DropdownChooser from '../DropdownChooser';
 import { VoiceIds } from '../../../shared/types/AwsConstants';
-import { FlexRow, Label, VoiceSettingsCard } from '../styled';
+import {
+  FlexRow,
+  Label,
+  SampleTextContainer,
+  VoiceSettingsCard,
+} from '../styled';
 import ButtonPlayer from '../ButtonPlayer';
-import { useAppSelector } from '../../common/state/hooks';
+import { useAppSelector } from '../../common/state/typedReduxMethods';
 import { RootState } from '../../common/state/store';
 
 interface VoiceSettingsProps {
@@ -17,11 +21,6 @@ interface VoiceSettingsProps {
   speed: string;
   setSpeed(speed: string): void;
 }
-
-const StyledTextArea = styled(TextArea)`
-  flex: 1;
-  margin-left: 32px;
-`;
 
 const VoiceSettings = ({
   Engine,
@@ -89,7 +88,7 @@ const VoiceSettings = ({
         </div>
         <ButtonPlayer text={text} disabled={!awsConfigured} />
       </VoiceSettingsCard>
-      <StyledTextArea
+      <SampleTextContainer
         placeholder={'Enter sample text...'}
         maxLength={300}
         onChange={onTextInput}

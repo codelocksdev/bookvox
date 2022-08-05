@@ -1,59 +1,31 @@
-import {
-  FormEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FormEventHandler, useCallback, useMemo, useState } from 'react';
 import FileItem from '../objects/FileItem';
-import BookItem from '../objects/BookItem';
-import IpcService from '../common/ipc/IpcService';
-import { useAppSelector } from '../common/state/hooks';
-import { RootState } from '../common/state/store';
-import ChannelNames from '../../shared/ChannelNames';
+import { BookItem } from '../objects/BookItem';
+import { bookValid, generateUUID } from '../common/utils';
+import { useAppDispatch } from '../common/state/typedReduxMethods';
+import { addOrUpdateBook } from '../common/state/librarySlice';
 
-const emptyBook: BookItem = { name: '', destination: '', files: [] };
-const slash = window.navigator.platform === 'Win32' ? '\\' : '/';
+const getEmptyBook = (): BookItem => ({
+  uuid: generateUUID(),
+  name: '',
+  files: new Map(),
+  processing: false,
+  converted: false,
+});
 
-interface UseAddBookProps {
-  setShow(show: boolean): void;
-  addBook(book: BookItem): void;
-}
+const useAddBook = (initialBook?: BookItem) => {
+  const dispatch = useAppDispatch();
+  const [book, setBook] = useState<BookItem>(initialBook || getEmptyBook());
+  const allowAdd = useMemo(() => bookValid(book), [book]);
 
-const useAddBook = ({ setShow, addBook }: UseAddBookProps) => {
-  const [book, setBook] = useState<BookItem>(emptyBook);
-  const files = useRef<Map<string, FileItem>>(new Map());
-  const ipcService = useMemo(() => new IpcService(), []);
-  const destinationFolder = useAppSelector(
-    (store: RootState) => store.settings.outputDirectory
-  );
+  const reset = useCallback(() => {
+    setBook(getEmptyBook());
+  }, [setBook]);
 
-  useEffect(() => {
-    (async function getHomeDir() {
-      const homeDir = await ipcService.send<string>(
-        ChannelNames.HOME_DIRECTORY
-      );
-      const destination = `${homeDir}${slash}${destinationFolder}${slash}`;
-      setBook((prevState) => ({
-        ...prevState,
-        destination,
-      }));
-    })();
-  });
-
-  const handleAddBook = useCallback(() => {
-    addBook(book);
-    setBook(emptyBook);
-    setShow(false);
-    files.current = new Map();
-  }, [book, addBook, setShow, setBook]);
-
-  const handleClose = useCallback(() => {
-    setBook(emptyBook);
-    setShow(false);
-    files.current = new Map();
-  }, [setBook, setShow]);
+  const addBook = useCallback(() => {
+    dispatch(addOrUpdateBook(book));
+    reset();
+  }, [dispatch, book, reset]);
 
   const handleSetBookName = useCallback((name: string) => {
     setBook((prevState) => ({
@@ -65,52 +37,56 @@ const useAddBook = ({ setShow, addBook }: UseAddBookProps) => {
   const handleAddChapters: FormEventHandler<HTMLInputElement> = (event) => {
     // @ts-ignore
     const newFiles: File[] = Array.from(event.target.files as FileList);
+    const files = new Map(book.files);
 
     newFiles.forEach((file) => {
-      if (files.current && !files.current.has(file.path))
-        files.current.set(file.path, FileItem.fromFile(file));
+      if (!files.has(file.path)) files.set(file.path, FileItem.fromFile(file));
     });
 
     setBook((prevState) => ({
       ...prevState,
-      files: Array.from(files.current.values()),
+      files,
     }));
   };
 
   const onFileInputTextConfirm = useCallback(
     (file: FileItem, input: string) => {
-      if (files.current && files.current.has(file.path)) {
+      const files = new Map(book.files);
+
+      if (files.has(file.path)) {
         // @ts-ignore
-        files.current.get(file.path).name = `${input}.txt`;
+        files.get(file.path).name = `${input}.txt`;
         setBook((prevState) => ({
           ...prevState,
-          files: Array.from(files.current.values()),
+          files,
         }));
       }
     },
-    [setBook]
+    [book]
   );
 
-  const removeFile = useCallback((file: FileItem) => {
-    if (files.current) {
-      files.current.delete(file.path);
+  const removeFile = useCallback(
+    (file: FileItem) => {
+      const files = new Map(book.files);
+      files.delete(file.path);
       setBook((prevState) => ({
         ...prevState,
-        files: Array.from(files.current.values()),
+        files,
       }));
-    }
-  }, []);
+    },
+    [book]
+  );
 
   return {
-    handleAddBook,
-    handleClose,
+    addBook,
+    reset,
     handleSetBookName,
     handleAddChapters,
     setBook,
-    files,
     book,
     onFileInputTextConfirm,
     removeFile,
+    allowAdd,
   };
 };
 

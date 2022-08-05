@@ -1,21 +1,14 @@
-import styled from 'styled-components';
-import { Card } from '@blueprintjs/core';
-
-import { Label } from '../../styled';
+import { Label, CenteredCard } from '../../styled';
 import KeysInput from './KeysInput';
-
-const Container = styled(Card)`
-  margin: auto;
-`;
 
 const AwsCredentialsInput = () => {
   return (
-    <Container>
+    <CenteredCard>
       <Label>
         <h2>Enter your AWS credentials to proceed.</h2>
       </Label>
       <KeysInput />
-    </Container>
+    </CenteredCard>
   );
 };
 

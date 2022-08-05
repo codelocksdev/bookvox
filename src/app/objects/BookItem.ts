@@ -1,11 +1,14 @@
 import FileItem from './FileItem';
 
-interface BookItem {
+export interface BookItem {
   uuid: string;
   name: string;
-  destination: string;
-  files: FileItem[];
+  files: Map<string, FileItem>;
+  processing: boolean;
   converted: boolean;
+  processingError?: string;
 }
 
-export default BookItem;
+export interface BookItemFields {
+  [key: string]: string | boolean | Map<string, FileItem>;
+}

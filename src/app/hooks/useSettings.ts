@@ -2,7 +2,10 @@ import { useCallback, useEffect } from 'react';
 import { Intent } from '@blueprintjs/core';
 
 import Toaster from '../components/toasters';
-import { useAppDispatch, useAppSelector } from '../common/state/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../common/state/typedReduxMethods';
 import { setSettings } from '../common/state/settingsSlice';
 import { getAwsCredentials } from '../common/state/selectors';
 import { updateAwsCredentials } from '../common/state/thunks';

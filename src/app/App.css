@@ -2,6 +2,7 @@
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import '~@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 
 body {
   background-color: #2f343c;

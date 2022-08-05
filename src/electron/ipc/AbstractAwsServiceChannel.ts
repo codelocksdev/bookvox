@@ -23,7 +23,10 @@ export default abstract class AbstractAwsServiceChannel
     return this.initChannel;
   }
 
-  config(_: IpcMainEvent, request: AwsConfigRequest): void {
+  config(event: IpcMainEvent, request: AwsConfigRequest): void {
+    const responseChannel =
+      request.responseChannel || `${this.getConfigChannelName()}_response`;
+
     this.awsCredentials = request.params.credentials;
     this.pollyParams = request.params.options || defaultPollyParams;
 
@@ -33,6 +36,7 @@ export default abstract class AbstractAwsServiceChannel
     });
 
     AWS.config.region = this.awsCredentials.region;
+    event.sender.send(responseChannel);
   }
 
   protected awsConfigured(): boolean {

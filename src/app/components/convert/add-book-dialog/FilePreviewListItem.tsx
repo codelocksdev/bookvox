@@ -5,25 +5,25 @@ import FileItem from '../../../objects/FileItem';
 interface FilePreviewListItemProps {
   file: FileItem;
   isEven: boolean;
-  onTextConfirm(file: FileItem, input: string): void;
-  remove(file: FileItem): void;
+  onFileInputTextConfirm(file: FileItem, input: string): void;
+  removeFile(file: FileItem): void;
 }
 
 const FilePreviewListItem = ({
   isEven,
   file,
-  onTextConfirm,
-  remove,
+  onFileInputTextConfirm,
+  removeFile,
 }: FilePreviewListItemProps) => {
   return (
     <ListItem key={`add-book-file-item-${file.path}`} isEven={isEven}>
       <EditableText
         defaultValue={file.name.replace('.txt', '')}
-        onConfirm={(input) => onTextConfirm(file, input)}
+        onConfirm={(input) => onFileInputTextConfirm(file, input)}
       />
       <Button
         icon={'trash'}
-        onClick={() => remove(file)}
+        onClick={() => removeFile(file)}
         intent={Intent.DANGER}
         minimal
       />

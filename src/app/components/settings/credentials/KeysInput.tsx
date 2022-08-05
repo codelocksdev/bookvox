@@ -3,7 +3,7 @@ import { Intent } from '@blueprintjs/core';
 
 import TextInput from '../../TextInput';
 import useSettings from '../../../hooks/useSettings';
-import { useAppSelector } from '../../../common/state/hooks';
+import { useAppSelector } from '../../../common/state/typedReduxMethods';
 import { RootState } from '../../../common/state/store';
 
 const KeysInput = () => {

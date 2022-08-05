@@ -55,7 +55,10 @@ export default class TextFileBatchChannel extends AbstractAwsServiceChannel {
     });
 
     event.sender.send(channel, {
-      audioChapters: audioChapters.map((chapter) => chapter.toString('base64')),
+      audioChapters: audioChapters.map((chapter, index) => ({
+        audioSrc: chapter.toString('base64'),
+        path: fileInfo[index].path,
+      })),
     });
   }
 }

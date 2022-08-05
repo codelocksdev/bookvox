@@ -1,4 +1,4 @@
-import BookItem from '../../objects/BookItem';
+import { BookItem } from '../../objects/BookItem';
 
 export interface Library {
   bookList: {

@@ -1,50 +1,9 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 
-import settingsReducer, { setSettings } from './settingsSlice';
+import settingsReducer from './settingsSlice';
 import libraryReducer from './librarySlice';
-import IpcService from '../ipc/IpcService';
-import ChannelNames from '../../../shared/ChannelNames';
 
-const listenerMiddleware = createListenerMiddleware();
-const ipcService = new IpcService();
-
-// Add one or more listener entries that look for specific actions.
-// They may contain any sync or async logic, similar to thunks.
-listenerMiddleware.startListening({
-  actionCreator: setSettings,
-  effect: async (_, listenerApi) => {
-    const {
-      settings: {
-        accessKeyId,
-        secretAccessKey,
-        region,
-        VoiceId,
-        OutputFormat,
-        Engine,
-        speed,
-        outputDirectory,
-      },
-    } = listenerApi.getState() as RootState;
-
-    if (accessKeyId && secretAccessKey && region) {
-      ipcService
-        .send(ChannelNames.AWS_CONFIG, {
-          params: {
-            credentials: { accessKeyId, secretAccessKey, region },
-            options: { VoiceId, OutputFormat, Engine, speed, outputDirectory },
-          },
-        })
-        .then(() => null)
-        .catch(() => {
-          // todo
-        });
-    }
-
-    // Pause until action dispatched or state changed
-    // if (await listenerApi.condition(matchSomeAction)) {
-    // }
-  },
-});
+export const listenerMiddleware = createListenerMiddleware();
 
 export const store = configureStore({
   reducer: {

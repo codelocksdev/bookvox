@@ -1,6 +1,6 @@
-import UploadWidget from '../components/upload/UploadWidget';
+import UploadWidget from '../components/convert/UploadWidget';
 import AwsCredentialsInput from '../components/settings/credentials/AwsCredentialsInput';
-import { useAppSelector } from '../common/state/hooks';
+import { useAppSelector } from '../common/state/typedReduxMethods';
 import { RootState } from '../common/state/store';
 
 const Home = () => {

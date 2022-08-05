@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Library } from '../types/Library';
-import BookItem from '../../objects/BookItem';
+import { BookItem } from '../../objects/BookItem';
 
 const initialState: Library = {
   bookList: {},
