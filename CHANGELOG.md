@@ -1,7 +1,7 @@
-# 1.0.0 (2022.8.7)
+# 1.0.0 (2022.8.5)
 
 #### Features
 
-- **Webpack:** babel, react-hot, ...
-- **Flux:** actions, api, components, containers, stores..
-- **Package:** darwin (osx), linux and win32 (windows) platform.
+- **AWS Polly:** Use aws-sdk and polly service to synthesize speech.
+- **Batch txt files:** Support conversion of txt file batches as book exports.
+- **Settings:** Configure output location and polly voice settings with american english voices.
