@@ -1,0 +1,22 @@
+@import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import '~@blueprintjs/popover2/lib/css/blueprint-popover2.css';
+
+body {
+  background-color: #2f343c;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  font-family: 'roboto';
+  font-weight: 300;
+}
