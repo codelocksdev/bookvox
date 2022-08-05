@@ -1,0 +1,17 @@
+{
+  "name": "bookvox",
+  "version": "1.0.0",
+  "description": "Create audiobooks from text. Powered by AWS Polly.",
+  "license": "MIT",
+  "author": {
+    "name": "Samantha Stephans",
+    "url": "https//github.com/sstephans"
+  },
+  "main": "./dist/electron/main.js",
+  "scripts": {
+    "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "postinstall": "npm run electron-rebuild && npm run link-modules",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
+  },
+  "dependencies": {}
+}
