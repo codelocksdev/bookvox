@@ -181,7 +181,7 @@
   },
   "build": {
     "productName": "bookvox",
-    "appId": "org.erb.ElectronReact",
+    "appId": "com.sstephans.bookvox",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -240,7 +240,8 @@
     "publish": {
       "provider": "github",
       "owner": "sstephans",
-      "repo": "bookvox"
+      "repo": "bookvox",
+      "releaseType": "release"
     },
     "extends": null
   },
