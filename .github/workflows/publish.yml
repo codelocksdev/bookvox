@@ -2,6 +2,9 @@ name: Publish
 
 on:
   push:
+    tags:
+      # Build on every tag in the form v1.2.3-something.4
+      - 'v*'
     branches:
       - main
 
