@@ -2,6 +2,9 @@
 
 bookvox provides a simple user interface for converting text to speech and organizing the output as book chapters. The text-to-speech capability is powered by AWS Polly. 
 
+![image](https://user-images.githubusercontent.com/29578272/183437720-e2093a23-9da3-4450-82d5-65cad7492c5f.png)
+
+
 ## Usage
 
 ### AWS Credentials
